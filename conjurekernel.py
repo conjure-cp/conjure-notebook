@@ -1,7 +1,8 @@
 from ipykernel.kernelbase import Kernel
+import os
 
-class EchoKernel(Kernel):
-    implementation = 'Echo'
+class ConjureKernel(Kernel):
+    implementation = 'Conjure'
     implementation_version = '1.0'
     language = 'no-op'
     language_version = '0.1'
@@ -10,13 +11,18 @@ class EchoKernel(Kernel):
         'mimetype': 'text/plain',
         'file_extension': '.txt',
     }
-    banner = "Echo kernel - as useful as a parrot"
+    banner = "Conjure jupyter notebook"
 
     def do_execute(self, code, silent, store_history=True, user_expressions=None,
                    allow_stdin=False):
-        if not silent:
-            stream_content = {'name': 'stdout', 'text': code}
-            self.send_response(self.iopub_socket, 'stream', stream_content)
+        with open('first.essence', 'w') as f:
+            f.write(str(code))
+        os.system('conjure solve -ac first.essence --output-format=json')
+        with open('./conjure-output/model000001-solution000001.solution.json') as f:
+            contents = f.read()
+            if not silent:
+                stream_content = {'name': 'stdout', 'text': contents}
+                self.send_response(self.iopub_socket, 'stream', stream_content)
 
         return {'status': 'ok',
                 # The base class increments the execution count
@@ -27,4 +33,4 @@ class EchoKernel(Kernel):
 
 if __name__ == '__main__':
     from ipykernel.kernelapp import IPKernelApp
-    IPKernelApp.launch_instance(kernel_class=EchoKernel)
+    IPKernelApp.launch_instance(kernel_class=ConjureKernel)

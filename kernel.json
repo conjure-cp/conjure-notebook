@@ -2,9 +2,9 @@
     "argv": [
         "python",
         "-m",
-        "echokernel",
+        "conjurekernel",
         "-f",
         "{connection_file}"
     ],
-    "display_name": "Echo"
+    "display_name": "Conjure"
 }
