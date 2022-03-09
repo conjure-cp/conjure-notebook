@@ -1,5 +1,8 @@
 from ipykernel.kernelbase import Kernel
+import tempfile
 import os
+import base64
+from subprocess import Popen, PIPE
 
 class ConjureKernel(Kernel):
     implementation = 'Conjure'
@@ -13,23 +16,35 @@ class ConjureKernel(Kernel):
     }
     banner = "Conjure jupyter notebook"
 
-    def do_execute(self, code, silent, store_history=True, user_expressions=None,
+    async def do_execute(self, code, silent, store_history=True, user_expressions=None,
                    allow_stdin=False):
-        with open('first.essence', 'w') as f:
+        temp_filename = next(tempfile._get_candidate_names())
+        temp_essence_file = temp_filename + '.essence'
+        with open(temp_essence_file, 'w') as f:
             f.write(str(code))
-        os.system('conjure solve -ac first.essence --output-format=json')
-        with open('./conjure-output/model000001-solution000001.solution.json') as f:
-            contents = f.read()
+        shell_output = Popen(["conjure solve -ac " +temp_essence_file + " --output-format=json", ], shell=True, stdout=PIPE, stderr=PIPE)
+        _, error = shell_output.communicate()
+        if error:
             if not silent:
-                stream_content = {'name': 'stdout', 'text': contents}
+                stream_content = {'name': 'stdout', 'text': error.decode("utf-8")}
                 self.send_response(self.iopub_socket, 'stream', stream_content)
-
-        return {'status': 'ok',
-                # The base class increments the execution count
-                'execution_count': self.execution_count,
-                'payload': [],
-                'user_expressions': {},
+                return {
+                'status': 'error',
                }
+        else:
+            with open('./conjure-output/model000001-solution000001.solution.json') as f:
+                contents = f.read()
+                if not silent:
+                    stream_content = {'name': 'stdout', 'text': contents}
+                    self.send_response(self.iopub_socket, 'stream', stream_content)
+                os.remove(temp_essence_file)
+                os.remove(temp_filename + '.solution')
+            return {'status': 'ok',
+                    # The base class increments the execution count
+                    'execution_count': self.execution_count,
+                    'payload': [],
+                    'user_expressions': {},
+                }
 
 if __name__ == '__main__':
     from ipykernel.kernelapp import IPKernelApp
