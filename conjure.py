@@ -25,10 +25,18 @@ class Conjure:
             raise Exception("Interenal error occured")
 
     def clean_tmp_files(self):
-        files = os.listdir()
+        files = os.listdir('.')
         for f in files:
             if f.endswith('.essence') or f.endswith('.solution'):
                 try:
                     os.remove(f)
+                except:
+                    pass
+         # remove conjure-output-folder
+        if(os.path.isdir('./conjure-output')):
+            files = os.listdir('./conjure-output')
+            for f in files:
+                try:
+                    os.remove('./conjure-output/' + f)
                 except:
                     pass
