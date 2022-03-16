@@ -1,5 +1,5 @@
 package:
-  name: 'iconjure'
+  name: 'conjure'
   version: {{ GIT_DESCRIBE_TAG }}
 
 source:
@@ -20,7 +20,7 @@ requirements:
 
 test:
   imports:
-    - iconjure
+    - conjure
 
 about:
   home: https://github.com/conjure-cp/conjure-notebook

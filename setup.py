@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="iconjure",
+    name="conjure",
     version="0.0.1",
     author="Ogabek Yusupov",
     author_email="ogabekyusupov@gmail.com",
