@@ -1,0 +1,29 @@
+package:
+  name: 'iconjure'
+  version: {{ GIT_DESCRIBE_TAG }}
+
+source:
+  git_url: .
+
+build:
+  number: {{ GIT_DESCRIBE_NUMBER }}
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - setuptools
+    - jupyter
+  run:
+    - python
+    - jupyter
+
+test:
+  imports:
+    - iconjure
+
+about:
+  home: https://github.com/conjure-cp/conjure-notebook
+  license: Mozilla Public License 2.0 (MPL 2.0)
+  license_file: LICENSE.txt
+  summary: Conjure extension for jupyter notebook

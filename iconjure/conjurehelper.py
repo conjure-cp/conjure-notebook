@@ -3,7 +3,6 @@ from signal import raise_signal
 import tempfile
 import json
 from subprocess import Popen, PIPE
-from IPython.utils.tempdir import TemporaryDirectory
 
 class ConjureHelper:
     def __init__(self):
