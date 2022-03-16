@@ -7,9 +7,10 @@ from IPython.utils.tempdir import TemporaryDirectory
 
 class ConjureHelper:
     def __init__(self):
-        self.tempdir = "./conjure-temp-files/"
+        self.tempdir = "./conjure-temp-files"
         if(not os.path.isdir(self.tempdir)):
             os.mkdir(self.tempdir)
+    
     def create_temp_file(self, contents:str) -> str:
         temp_filename = next(tempfile._get_candidate_names())
         with open(self.tempdir + "/" + temp_filename, "w") as file:
