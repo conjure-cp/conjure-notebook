@@ -1,6 +1,6 @@
-import json
+import sys
 from .conjure import Conjure
-
+from .conjurehelper import ConjureHelper
 from IPython.core.magic import (Magics, magics_class, line_cell_magic)
 
 @magics_class
@@ -8,19 +8,13 @@ class ConjureMagics(Magics):
         @line_cell_magic
         def conjure(self, line, cell):
           conjure = Conjure()
-          param_names = conjure.get_required_params(cell)
-          params = {}
-          if len(param_names) > 0:
-               for p in param_names:
-                    if p in self.shell.user_ns:
-                         params[p] = self.shell.user_ns[p]
-                    else:
-                         raise Exception("{0} is not defined".format(p))
-               result = conjure.solve(cell, params)
-          else:
-               result = conjure.solve(cell)          
-          resultmap = json.loads(result)
-          for key, value in resultmap.items():
+          conjurehelper = ConjureHelper()
+          conjurehelper.clean_tmp_files()
+          try:
+               resultdict = conjure.solve(cell, self.shell.user_ns)
+          except Exception as e:
+             print("{}: {}".format(type(e).__name__, e), file=sys.stderr)
+             return;
+          for key, value in resultdict.items():
                self.shell.user_ns[key] = value
-          # self.shell.user_ns['conjure_result'] =  resultmap
-          return resultmap
+          return resultdict
