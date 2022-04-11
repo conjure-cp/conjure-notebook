@@ -8,7 +8,7 @@ class ConjureMagics(Magics):
         def conjure(self, line, cell):
           conjure = Conjure()
           try:
-               resultdict = conjure.solve(cell, self.shell.user_ns)
+               resultdict = conjure.solve(cell, dict(self.shell.user_ns))
           except Exception as e:
              print("{}: {}".format(type(e).__name__, e), file=sys.stderr)
              return;

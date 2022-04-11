@@ -1,7 +1,7 @@
 import os
-from signal import raise_signal
 import tempfile
 import json
+from conjure.conjureTypeConversion import ConjureTypeConversion
 from subprocess import Popen, PIPE
 
 class ConjureHelper:
@@ -34,7 +34,7 @@ class ConjureHelper:
             raise Exception("No params are given.")   
         tempstr = "language Essence 1.3\n"
         for key, value in params.items():
-            tempstr+="letting {0} be {1}\n".format(key, value)
+            tempstr+=ConjureTypeConversion.toConjureParamText(key, value) # python variable to conjure param text
         return self.create_temp_file(tempstr)
 
     def read_solution_json_file(self) -> dict:
