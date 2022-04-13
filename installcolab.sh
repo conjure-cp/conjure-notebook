@@ -1,13 +1,11 @@
 #!/bin/bash
 
+# download latest release from Github
 git clone https://github.com/ogabek96/conjure-notebook-executable.git && cd "$(basename "$_" .git)"
 
-chmod +x ./conjure
-chmod +x ./savilerow
-chmod +x ./bin/minion
-chmod +x ./bin/fzn-chuffed
-chmod +x ./bin/symmetry_detect
+# copy the executables to /usr/local/bin
+chmod +x conjure savilerow savilerow.jar bin/*
+cp conjure savilerow savilerow.jar bin/* /usr/local/bin
 
-export PATH=${PATH}:'/content/conjure-notebook-executable':'/content/conjure-notebook-executable/bin'
-
+# installing the conjure extension
 pip install git+https://github.com/conjure-cp/conjure-notebook.git@dev
