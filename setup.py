@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="conjure",
-    version="0.0.1",
+    version="v2.3.0",
     author="Ogabek Yusupov",
     author_email="ogabekyusupov@gmail.com",
     description="Conjure extension for jupyter notebook",
