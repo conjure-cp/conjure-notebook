@@ -20,7 +20,7 @@ class Conjure:
             temp_params_file = conjurehelper.create_params_file(params)
             shell_output = Popen(["conjure solve -ac " + temp_essence_file + " " + temp_params_file +" --output-format=json --solver=chuffed " + args, ], shell=True, stdout=PIPE, stderr=PIPE)
         else:
-            shell_output = Popen(["conjure solve -ac " + temp_essence_file + " --output-format=json --solver=chuffed" + args, ], shell=True, stdout=PIPE, stderr=PIPE)
+            shell_output = Popen(["conjure solve -ac " + temp_essence_file + " --output-format=json --solver=chuffed " + args, ], shell=True, stdout=PIPE, stderr=PIPE)
             
         _, error = shell_output.communicate()
         if(error):
