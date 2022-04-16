@@ -51,7 +51,7 @@ class ConjureHelper:
         except:
             raise Exception('Error while reading json solution file(s).')
         if(solution_nums == 0):
-            raise Exception('No solution found for this model.')
+            raise Exception('No solution found for this Essence model.')
         elif(solution_nums == 1):
             return solutions[0]
         else:
