@@ -38,19 +38,27 @@ class ConjureHelper:
         return self.create_temp_file(tempstr)
 
     def read_solution_json_file(self) -> dict:
+        solution_nums = 0
+        solutions = []
         try:
             if(os.path.isdir('./conjure-output')):
                 files = os.listdir('./conjure-output')
                 for f in files:
                     if f.endswith('.json'):
                         with open('./conjure-output/' + f) as file:
-                            return json.loads(file.read())
+                            solutions.append(json.loads(file.read()))
+                            solution_nums+=1
         except:
-            raise Exception('Error while reading json solution file.')
-        raise Exception('No json solution file found in conjure-output directory.')
+            raise Exception('Error while reading json solution file(s).')
+        if(solution_nums == 0):
+            raise Exception('No solution found for this model.')
+        elif(solution_nums == 1):
+            return solutions[0]
+        else:
+            return {"conjure_solutions": solutions}
 
     def clean_tmp_files(self):
-         # remove conjure-output-folder
+        # remove conjure-output-folder
         if(os.path.isdir('./conjure-output')):
             files = os.listdir('./conjure-output')
             for f in files:
