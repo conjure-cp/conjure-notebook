@@ -5,10 +5,10 @@ from IPython.core.magic import (Magics, magics_class, line_cell_magic)
 @magics_class
 class ConjureMagics(Magics):
         @line_cell_magic
-        def conjure(self, line, cell):
+        def conjure(self, args, cell):
           conjure = Conjure()
           try:
-               resultdict = conjure.solve(cell, dict(self.shell.user_ns))
+               resultdict = conjure.solve(cell, args, dict(self.shell.user_ns))
           except Exception as e:
              print("{}: {}".format(type(e).__name__, e), file=sys.stderr)
              return;
