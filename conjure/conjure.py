@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE
 from .conjurehelper import ConjureHelper
 
 class Conjure:
-    def solve(self, code: str, args: str, shell_params: dict):
+    def solve(self, args: str, code: str, shell_params: dict):
         conjurehelper = ConjureHelper()
         conjurehelper.clean_tmp_files() # clean temp files of previous run
 
