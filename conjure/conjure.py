@@ -1,4 +1,5 @@
 from ast import arg
+import json
 import sys
 from subprocess import Popen, PIPE
 from .conjurehelper import ConjureHelper
@@ -27,6 +28,16 @@ class Conjure:
             raise Exception(error.decode('utf-8'))
         return conjurehelper.read_solution_json_file()
 
+    def get_representations(self, code: str):
+        conjurehelper = ConjureHelper()
+        conjurehelper.clean_tmp_files() # clean temp files of previous run
+        temp_essence_file = conjurehelper.create_temp_file(code)
+        shell_output = Popen(["conjure ide --dump-representations " + temp_essence_file], shell=True, stdout=PIPE, stderr=PIPE)
+        output, error = shell_output.communicate()
+        if(error):
+            raise Exception(error.decode('utf-8'))
+        return json.loads(output.decode('utf-8'))
+        
     def check_conjure():
         try:
             pipes = Popen(["conjure", "--version"],shell=True,
