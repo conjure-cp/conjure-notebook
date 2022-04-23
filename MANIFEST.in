@@ -1,0 +1,2 @@
+# Include syntax highlight
+include conjure/static/syntax-highlight.js
