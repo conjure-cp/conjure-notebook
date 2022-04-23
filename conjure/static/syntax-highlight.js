@@ -201,8 +201,17 @@ CodeMirror.defineMode("text/conjure", function (config) {
 
 CodeMirror.defineMIME("text/conjure", "text/conjure");
 
-Jupyter.CodeCell.options_default.highlight_modes['magic_text/conjure'] = { 'reg': [/^%%conjure/] };
+// Jupyter.CodeCell.options_default.highlight_modes['magic_text/conjure'] = { 'reg': [/^%%conjure/] };
 
-Jupyter.notebook.get_cells().map(function (cell) {
-    if (cell.cell_type == 'code') { cell.auto_highlight(); }
+// Jupyter.notebook.get_cells().map(function (cell) {
+//     if (cell.cell_type == 'code') { cell.auto_highlight(); }
+// });
+
+require(['notebook/js/codecell'], function (codecell) {
+    codecell.CodeCell.options_default.highlight_modes['magic_text/conjure'] = { 'reg': [/%?%conjure/] };
+    Jupyter.notebook.events.one('kernel_ready.Kernel', function () {
+        Jupyter.notebook.get_cells().map(function (cell) {
+            if (cell.cell_type == 'code') { cell.auto_highlight(); }
+        });
+    });
 });
