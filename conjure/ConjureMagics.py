@@ -12,7 +12,7 @@ class ConjureMagics(Magics):
           conjure_model_pre = ""
           try:
                conjure_model_pre = self.conjure_model
-               self.conjure_model += code
+               self.conjure_model += code + '\n'
                resultdict = conjure.solve(args, self.conjure_model, dict(self.shell.user_ns))
           except Exception as e:
                self.conjure_model = conjure_model_pre
