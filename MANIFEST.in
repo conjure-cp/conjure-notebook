@@ -1,0 +1,2 @@
+# Include syntax highlight
+recursive-include conjure/static *
