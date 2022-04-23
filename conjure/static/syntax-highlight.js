@@ -2,26 +2,89 @@
 
 CodeMirror.defineMode("text/conjure", function (config) {
 
-    var isOperatorChar = /[+\-*=<>\/]/;
+    var isOperatorChar = /[+\-*=<>%^\/]/;
 
     var keywords = {
-        "bool": true,
-        "enum": true,
-        "function": true,
-        "int": true,
-        "matrix": true,
-        "mset": true,
-        "partition": true,
-        "relation": true,
-        "set": true,
-        "tuple": true,
-    };
-
-    var functions = {
+        "forall": true,
+        "allDifferent": true,
         "allDiff": true,
         "alldifferent_except": true,
-    };
-
+        "dim": true,
+        "toSet": true,
+        "toMSet": true,
+        "toRelation": true,
+        "maximising": true,
+        "minimising": true,
+        "forAll": true,
+        "exists": true,
+        "toInt": true,
+        "sum": true,
+        "be": true,
+        "bijective": true,
+        "bool": true,
+        "by": true,
+        "complete": true,
+        "defined": true,
+        "domain": true,
+        "in": true,
+        "or": true,
+        "and": true,
+        "false": true,
+        "find": true,
+        "from": true,
+        "function": true,
+        "given": true,
+        "image": true,
+        "indexed": true,
+        "injective": true,
+        "int": true,
+        "intersect": true,
+        "freq": true,
+        "lambda": true,
+        "language": true,
+        "letting": true,
+        "matrix": true,
+        "maxNumParts": true,
+        "maxOccur": true,
+        "maxPartSize": true,
+        "maxSize": true,
+        "minNumParts": true,
+        "minOccur": true,
+        "minPartSize": true,
+        "minSize": true,
+        "mset": true,
+        "numParts": true,
+        "of": true,
+        "partial": true,
+        "partition": true,
+        "partSize": true,
+        "preImage": true,
+        "quantifier": true,
+        "range": true,
+        "regular": true,
+        "relation": true,
+        "representation": true,
+        "set": true,
+        "size": true,
+        "subset": true,
+        "subsetEq": true,
+        "such": true,
+        "supset": true,
+        "supsetEq": true,
+        "surjective": true,
+        "that": true,
+        "together": true,
+        "enum": true,
+        "total": true,
+        "true": true,
+        "new": true,
+        "type": true,
+        "tuple": true,
+        "union": true,
+        "where": true,
+        "branching": true,
+        "on": true
+    };  
     var punc = ":;,.(){}[]";
 
     function tokenBase(stream, state) {
@@ -46,7 +109,7 @@ CodeMirror.defineMode("text/conjure", function (config) {
                 return tokenComment(stream, state);
             }
         }
-        if (ch == "%") {
+        if (ch == "$") {
             stream.skipToEnd();
             return "comment";
         }
@@ -59,11 +122,9 @@ CodeMirror.defineMode("text/conjure", function (config) {
         }
         stream.eatWhile(/[\w\$_\xa1-\uffff]/);
         var cur = stream.current();
+        
         if (keywords.propertyIsEnumerable(cur)) {
             return "keyword";
-        }
-        if (functions.propertyIsEnumerable(cur)) {
-            return "function";
         }
         return "variable";
     }
@@ -133,9 +194,10 @@ CodeMirror.defineMode("text/conjure", function (config) {
 
         blockCommentStart: "/*",
         blockCommentEnd: "*/",
-        lineComment: "%"
+        lineComment: "$"
     };
 });
+
 
 CodeMirror.defineMIME("text/conjure", "text/conjure");
 
