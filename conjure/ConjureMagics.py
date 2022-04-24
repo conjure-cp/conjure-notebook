@@ -4,18 +4,16 @@ from IPython.core.magic import (Magics, magics_class, line_cell_magic, line_magi
 
 @magics_class
 class ConjureMagics(Magics):
-     conjure_model = ""
+     conjure_models = []
 
      @line_cell_magic
      def conjure(self, args, code):
           conjure = Conjure()
-          conjure_model_pre = ""
           try:
-               conjure_model_pre = self.conjure_model
-               self.conjure_model += code + '\n'
-               resultdict = conjure.solve(args, self.conjure_model, dict(self.shell.user_ns))
+               self.conjure_models.append(code)
+               resultdict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
           except Exception as e:
-               self.conjure_model = conjure_model_pre
+               self.conjure_models.pop()
                print("{}: {}".format(type(e).__name__, e), file=sys.stderr)
                return;
           for key, value in resultdict.items():
@@ -24,9 +22,17 @@ class ConjureMagics(Magics):
 
      @line_magic
      def clear_conjure(self, line):
-          self.conjure_model = ""
+          self.conjure_models = []
           print('Conjure model cleared')
 
      @line_magic
      def print_conjure(self, line):
-          print(self.conjure_model)
+          print('\n'.join(self.conjure_models))
+     
+     @line_magic
+     def rollback_conjure(self, line):
+          if(len(self.conjure_models) == 0):
+               print("Exception: conjure model is empty.", file=sys.stderr)
+               return
+          self.conjure_models.pop()
+          print('Last added model is removed')
