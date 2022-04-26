@@ -1,12 +1,12 @@
 import sys
 from .conjure import Conjure
-from IPython.core.magic import (Magics, magics_class, line_cell_magic, line_magic)
+from IPython.core.magic import (Magics, magics_class, cell_magic, line_magic)
 
 @magics_class
 class ConjureMagics(Magics):
      conjure_models = []
 
-     @line_cell_magic
+     @cell_magic
      def conjure(self, args, code):
           conjure = Conjure()
           try:
