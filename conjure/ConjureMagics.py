@@ -21,16 +21,16 @@ class ConjureMagics(Magics):
           return resultdict
 
      @line_magic
-     def clear_conjure(self, line):
+     def conjure_clear(self, line):
           self.conjure_models = []
           print('Conjure model cleared')
 
      @line_magic
-     def print_conjure(self, line):
+     def conjure_print(self, line):
           print('\n'.join(self.conjure_models))
      
      @line_magic
-     def rollback_conjure(self, line):
+     def conjure_rollback(self, line):
           if(len(self.conjure_models) == 0):
                print("Exception: conjure model is empty.", file=sys.stderr)
                return
