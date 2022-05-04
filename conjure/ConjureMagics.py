@@ -7,10 +7,11 @@ import ipywidgets as widgets
 import asyncio
 from ipywidgets import IntSlider, Output
 
-
 @magics_class
 class ConjureMagics(Magics):
-        printOutput = 'Yes'
+        print_output = 'Yes'
+        conjure_solvers = ['chuffed', 'minion']
+        selected_solver = 'chuffed'
         @line_cell_magic
         def conjure(self, args, code):
           conjure = Conjure()
@@ -56,6 +57,7 @@ class ConjureMagics(Magics):
           # for rbtn in radionbuttons:
           #      display(rbtn)
           # display(btn)
+          args = ' --solver=' + self.selected_solver + ' ' +  args
 
           try:
                resultdict = conjure.solve(args, code, dict(self.shell.user_ns))
@@ -64,17 +66,24 @@ class ConjureMagics(Magics):
              return;
           for key, value in resultdict.items():
                self.shell.user_ns[key] = value
-          if self.printOutput == 'Yes':
+          if self.print_output == 'Yes':
                return resultdict
           else:
                print('Conjure execution is sucessfull. Output variables available.')
         
         @line_magic
         def conjure_settings(self, line):
-          radiobutton = widgets.RadioButtons(
+          conjure_output_rbtns = widgets.RadioButtons(
           options = ['Yes', 'No'],
-          value = self.printOutput,
+          value = self.print_output,
           description ='Print conjure output',
+          style = {'description_width': 'initial'},
+          layout=widgets.Layout(width='80%')
+          )
+          conjure_solvers_rbtns = widgets.RadioButtons(
+          options = self.conjure_solvers,
+          value = self.selected_solver,
+          description ='Conjure solver',
           style = {'description_width': 'initial'},
           layout=widgets.Layout(width='80%')
           )
@@ -86,13 +95,16 @@ class ConjureMagics(Magics):
                     widget.unobserve(getvalue, value)
                widget.observe(getvalue, value)
                return future
-          # out = Output()
           async def f():
-               for i in range(10):
-                    x = await wait_for_change(radiobutton, 'value')
-                    self.printOutput = x
-                    # out.clear_output()
-                    # out.append_stdout('Settings saved')
+               while True:
+                    x = await wait_for_change(conjure_output_rbtns, 'value')
+                    self.print_output = x
           asyncio.ensure_future(f())
-          # display(out)
-          display(radiobutton)
+          async def f1():
+               while True:
+                    x = await wait_for_change(conjure_solvers_rbtns, 'value')
+                    self.selected_solver = x
+          asyncio.ensure_future(f1())
+
+          display(conjure_output_rbtns)
+          display(conjure_solvers_rbtns)
