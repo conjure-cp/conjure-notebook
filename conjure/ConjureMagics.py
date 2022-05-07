@@ -1,16 +1,15 @@
 import sys
-from turtle import onclick
-from .conjure import Conjure
+import asyncio
 from IPython.core.magic import (Magics, magics_class, line_cell_magic, line_magic)
 from IPython.display import display, clear_output
 import ipywidgets as widgets
-import asyncio
-from ipywidgets import IntSlider, Output
+from .conjure import Conjure
 
 @magics_class
 class ConjureMagics(Magics):
         print_output = 'Yes'
-        conjure_solvers = ['chuffed', 'minion']
+        conjure_solvers = ['chuffed', 'minion', 'glucose', 'glucose-syrup', 
+        'lingeling', 'nbc_minisat_all_release', 'open-wbo', 'bc_minisat_all_release']
         selected_solver = 'chuffed'
         @line_cell_magic
         def conjure(self, args, code):
