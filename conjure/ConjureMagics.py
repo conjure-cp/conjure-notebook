@@ -10,7 +10,7 @@ class ConjureMagics(Magics):
      conjure_models = []
      print_output = 'Yes'
      conjure_solvers = ['chuffed', 'minion', 'glucose', 'glucose-syrup', 
-     'lingeling', 'nbc_minisat_all_release', 'open-wbo', 'bc_minisat_all_release']
+     'lingeling', 'open-wbo']
      selected_solver = 'chuffed'
      @line_cell_magic
      def conjure(self, args, code):
