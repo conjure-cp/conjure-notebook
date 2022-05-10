@@ -110,7 +110,6 @@ class ConjureMagics(Magics):
 
           display(conjure_output_rbtns)
           display(conjure_solvers_rbtns)
-          return resultdict
 
      @line_magic
      def conjure_clear(self, line):
