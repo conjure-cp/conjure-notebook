@@ -149,6 +149,6 @@ such that f(S) > 0, f(M) > 0
           help_str+= "%conjure_clear - clears the previously ran conjure models.\n"
           help_str+= "%conjure_print - prints the previously ran conjure models.\n"
           help_str+="%conjure_rollback - removes the last appended conjure model.\n"
+          help_str+="%conjure_settings - shows conjure settings menu.\n"
           help_str+="More information about the conjure: https://conjure.readthedocs.io"
           print(help_str)
-     
