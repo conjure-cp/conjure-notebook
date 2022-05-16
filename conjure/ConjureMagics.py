@@ -1,3 +1,4 @@
+from ast import arg
 import sys
 import asyncio
 from IPython.core.magic import (Magics, magics_class, line_cell_magic, line_magic)
@@ -7,7 +8,7 @@ from .conjure import Conjure
 
 @magics_class
 class ConjureMagics(Magics):
-
+     number_of_solutions = '1'
      conjure_models = []
      print_output = 'Yes'
      conjure_solvers = ['minion', 'gecode', 'chuffed', 'glucose', 'glucose-syrup',
@@ -60,11 +61,11 @@ class ConjureMagics(Magics):
           # for rbtn in radionbuttons:
           #      display(rbtn)
           # display(btn)
-          args = ' --solver=' + self.selected_solver + ' ' +  args
+          args = ' --solver=' + self.selected_solver +  ' --number-of-solutions=' + self.number_of_solutions + ' ' +  args
 
           # some solvers works only when --number-of-solutions=all
           if self.selected_solver == 'bc_minisat_all' or self.selected_solver == 'nbc_minisat_all':
-               args+=' --number-of-solutions=all'               
+               args+=' --number-of-solutions=all '               
 
           try:
                self.conjure_models.append(code)
@@ -89,6 +90,7 @@ class ConjureMagics(Magics):
           style = {'description_width': 'initial'},
           layout=widgets.Layout(width='80%')
           )
+
           conjure_solvers_rbtns = widgets.RadioButtons(
           options = self.conjure_solvers,
           value = self.selected_solver,
@@ -96,6 +98,15 @@ class ConjureMagics(Magics):
           style = {'description_width': 'initial'},
           layout=widgets.Layout(width='80%')
           )
+          
+          conjure_number_of_sols = widgets.Text(
+          value=self.number_of_solutions,
+          placeholder='Enter number or all',
+          description='Number of solutions:',
+          style = {'description_width': 'initial'},
+          disabled=False
+          )
+
           def wait_for_change(widget, value):
                future = asyncio.Future()
                def getvalue(change):
@@ -104,6 +115,7 @@ class ConjureMagics(Magics):
                     widget.unobserve(getvalue, value)
                widget.observe(getvalue, value)
                return future
+
           async def f():
                while True:
                     x = await wait_for_change(conjure_output_rbtns, 'value')
@@ -114,9 +126,15 @@ class ConjureMagics(Magics):
                     x = await wait_for_change(conjure_solvers_rbtns, 'value')
                     self.selected_solver = x
           asyncio.ensure_future(f1())
+          async def f2():
+               while True:
+                    x = await wait_for_change(conjure_number_of_sols, 'value')
+                    self.number_of_solutions = x
+          asyncio.ensure_future(f2())
 
           display(conjure_output_rbtns)
           display(conjure_solvers_rbtns)
+          display(conjure_number_of_sols)
 
      @line_magic
      def conjure_clear(self, line):
@@ -138,7 +156,7 @@ class ConjureMagics(Magics):
      @line_magic
      def conjure_help(self, line):
           help_str = "Conjure jupyter extension magic commands: \n"
-          help_str+= "%%conjure - Runs the provided conjure model along with previously ran models."
+          help_str+= "%%conjure - Runs the provided conjure model along with previously ran models.\n"
           help_str+= "%conjure_clear - clears the previously ran conjure models.\n"
           help_str+= "%conjure_print - prints the previously ran conjure models.\n"
           help_str+="%conjure_rollback - removes the last appended conjure model.\n"
