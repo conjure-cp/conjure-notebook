@@ -210,7 +210,7 @@ CodeMirror.defineMIME("text/conjure", "text/conjure");
 
 
 // Register a new language
-monaco.languages.register({ id: 'mySpecialLanguage' });
+monaco.languages.register({ id: 'mySpecialLanguage', mimetypes: ['text/conjure'] });
 
 // Register a tokens provider for the language
 monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
