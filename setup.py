@@ -13,6 +13,9 @@ setuptools.setup(
     url="https://github.com/conjure-cp/conjure-notebook",
     packages=setuptools.find_packages(),
     include_package_data=True,
+    install_requires=[
+           'ipywidgets>=7,<8',
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

@@ -1,4 +1,3 @@
-from ast import arg
 import json
 import sys
 from subprocess import Popen, PIPE
