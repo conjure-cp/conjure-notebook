@@ -4,13 +4,14 @@ import json
 from subprocess import Popen, PIPE
 from conjure.conjureTypeConversion import ConjureTypeConversion
 
+
 class ConjureHelper:
     def __init__(self):
         self.tempdir = "./conjure-temp-files"
         if not os.path.isdir(self.tempdir):
             os.mkdir(self.tempdir)
-    
-    def create_temp_file(self, contents:str) -> str:
+
+    def create_temp_file(self, contents: str) -> str:
         temp_filename = next(tempfile._get_candidate_names())
         with open(self.tempdir + "/" + temp_filename, "w") as file:
             file.write(contents)
@@ -19,7 +20,8 @@ class ConjureHelper:
 
     def get_required_params(self, code) -> list:
         temp_essence_file = self.create_temp_file(code)
-        shell_output = Popen(["conjure ide " + temp_essence_file + " --dump-declarations", ], shell=True, stdout=PIPE, stderr=PIPE)
+        shell_output = Popen(["conjure ide " + temp_essence_file +
+                             " --dump-declarations", ], shell=True, stdout=PIPE, stderr=PIPE)
         output, error = shell_output.communicate()
         if error:
             raise Exception(error.decode('utf-8'))
@@ -29,12 +31,13 @@ class ConjureHelper:
                 finds.append(dec.get('name'))
         return finds
 
-    def create_params_file(self, params = {}) -> str:
+    def create_params_file(self, params={}) -> str:
         if len(params.keys()) == 0:
-            raise Exception("No params are given.")   
+            raise Exception("No params are given.")
         tempstr = "language Essence 1.3\n"
         for key, value in params.items():
-            tempstr+=ConjureTypeConversion.to_conjure_param_text(key, value) # python variable to conjure param text
+            # python variable to conjure param text
+            tempstr += ConjureTypeConversion.to_conjure_param_text(key, value)
         return self.create_temp_file(tempstr)
 
     def read_solution_json_file(self) -> dict:
@@ -47,7 +50,7 @@ class ConjureHelper:
                     if f.endswith('.json'):
                         with open('./conjure-output/' + f) as file:
                             solutions.append(json.loads(file.read()))
-                            solution_nums+=1
+                            solution_nums += 1
         except:
             raise Exception('Error while reading json solution file(s).')
         if solution_nums == 0:
