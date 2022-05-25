@@ -1,8 +1,7 @@
-from ast import arg
 import sys
 import asyncio
 from IPython.core.magic import (Magics, magics_class, line_cell_magic, line_magic)
-from IPython.display import display, clear_output
+from IPython.display import display
 import ipywidgets as widgets
 from .conjure import Conjure
 
@@ -19,30 +18,42 @@ class ConjureMagics(Magics):
      # supported solvers
      conjure_solvers = ['minion', 'gecode', 'chuffed', 'glucose', 'glucose-syrup',
       'lingeling', 'cadical', 'kissat', 'minisat', 'bc_minisat_all', 'nbc_minisat_all',
-      'open-wbo', 'coin-or', 'cplex', 'boolector', 'yices', 'z3']
+      'open-wbo', 'coin-or', 'cplex', 'boolector-bv', 'yices-bv','yices-lia','yices-idl', 'z3-bv', 'z3-lia', 'z3-nia', 'z3-idl']
      selected_solver = 'chuffed'
+
+     choose_representations_options = ['Let the conjure choose', 'Take user selection']
+     choose_representations_value = choose_representations_options[0]
 
      @line_cell_magic
      def conjure(self, args, code):
           conjure = Conjure()
+
+          # adding solver and number of solutions
           args = ' --solver=' + self.selected_solver +  ' --number-of-solutions=' + self.number_of_solutions + ' ' +  args
           # some solvers works only when --number-of-solutions=all
           if self.selected_solver == 'bc_minisat_all' or self.selected_solver == 'nbc_minisat_all':
-               args+=' --number-of-solutions=all '               
+               args+=' --number-of-solutions=all '
 
-          if(len(self.conjure_representations.keys()) > 0):
+          # adding representations
+          if(self.choose_representations_value == self.choose_representations_options[1]  # only add representations if user selected so on settings
+               and len(self.conjure_representations.keys()) > 0):
                reps = []
                for repName, repAns in self.conjure_representations.items():
                     reps.append(repName + ":" + repAns)
                args+= ' --responses-representation=' + ",".join(reps) + ' '
+
+          # code execution
           try:
                if code not in self.conjure_models: # we won't add code to models if the code is already there
                     self.conjure_models.append(code)
                resultdict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
+
           except Exception as e:
                self.conjure_models.pop()
                print("{}: {}".format(type(e).__name__, e), file=sys.stderr)
                return;
+
+          # assign results to notebook environment
           for key, value in resultdict.items():
                self.shell.user_ns[key] = value
           if self.print_output == 'Yes':
@@ -61,6 +72,14 @@ class ConjureMagics(Magics):
           layout=widgets.Layout(width='80%')
           )
 
+          conjure_choose_reps_rbtns = widgets.RadioButtons(
+          options = self.choose_representations_options,
+          value = self.choose_representations_value,
+          description ='Representations selection',
+          style = {'description_width': 'initial'},
+          layout=widgets.Layout(width='80%')
+          )
+
           conjure_solvers_rbtns = widgets.RadioButtons(
           options = self.conjure_solvers,
           value = self.selected_solver,
@@ -68,7 +87,7 @@ class ConjureMagics(Magics):
           style = {'description_width': 'initial'},
           layout=widgets.Layout(width='80%')
           )
-          
+
           conjure_number_of_sols = widgets.Text(
           value=self.number_of_solutions,
           placeholder='Enter number or all',
@@ -76,6 +95,19 @@ class ConjureMagics(Magics):
           style = {'description_width': 'initial'},
           disabled=False
           )
+
+          representations = conjure.get_representations('\n'.join(self.conjure_models))
+          radionbuttonobjs = []
+          for rep in representations:
+               rep_options = list(map(lambda x: str(x['answer']) + '.' + x['description'], rep['representations']))
+               radiobutton = widgets.RadioButtons(
+               options = rep_options,
+               value = rep_options[0],
+               description ='Choose representation for ' + rep['name'],
+               style = {'description_width': 'initial'},
+               layout=widgets.Layout(width='80%')
+               )
+               radionbuttonobjs.append({"repName": rep['name'], "btn": radiobutton})
 
           def wait_for_change(widget, value):
                future = asyncio.Future()
@@ -91,49 +123,43 @@ class ConjureMagics(Magics):
                     x = await wait_for_change(conjure_output_rbtns, 'value')
                     self.print_output = x
           asyncio.ensure_future(f())
+
           async def f1():
                while True:
                     x = await wait_for_change(conjure_solvers_rbtns, 'value')
                     self.selected_solver = x
           asyncio.ensure_future(f1())
+
           async def f2():
                while True:
                     x = await wait_for_change(conjure_number_of_sols, 'value')
                     self.number_of_solutions = x
           asyncio.ensure_future(f2())
 
-          representations = conjure.get_representations('\n'.join(self.conjure_models))
-          radionbuttonobjs = []
-          for rep in representations:
-               rep_options = list(map(lambda x: str(x['answer']) + '.' + x['description'], rep['representations']))
-               radiobutton = widgets.RadioButtons(
-               options = rep_options,
-               value = rep_options[0],
-               description ='Choose representation for ' + rep['name'],
-               style = {'description_width': 'initial'},
-               layout=widgets.Layout(width='80%')
-               )
-               radionbuttonobjs.append({"repName": rep['name'], "btn": radiobutton})
-
           async def f3(radionbuttonobj):
-               repVals = {}
+               rep_vals = {}
                for i in range(10):
-                    repVals[radionbuttonobj['repName']] = await wait_for_change(radionbuttonobj['btn'], 'value')
-                    self.conjure_representations[radionbuttonobj['repName']] = repVals[radionbuttonobj['repName']].split(".")[0]
-                    print(self.conjure_representations)
-
+                    rep_vals[radionbuttonobj['repName']] = await wait_for_change(radionbuttonobj['btn'], 'value')
+                    self.conjure_representations[radionbuttonobj['repName']] = rep_vals[radionbuttonobj['repName']].split(".")[0]
           for ind, rbtnobj in enumerate(radionbuttonobjs):
                asyncio.ensure_future(f3(rbtnobj))
 
-          boxItems = []
-          for rbtn in radionbuttonobjs:
-               boxItems.append(rbtn["btn"])
-          box = widgets.VBox(boxItems)
+          async def f4():
+               while True:
+                    x = await wait_for_change(conjure_choose_reps_rbtns, 'value')
+                    self.choose_representations_value = x
+          asyncio.ensure_future(f4())
 
-          display(conjure_output_rbtns)
-          display(conjure_solvers_rbtns)
-          display(conjure_number_of_sols)
-          display(box)
+          settings_tab = widgets.Tab()
+          settings_tab.children = [
+               widgets.VBox([conjure_output_rbtns, conjure_number_of_sols, conjure_choose_reps_rbtns]), 
+               conjure_solvers_rbtns,
+               widgets.VBox(list(map(lambda x: x["btn"], radionbuttonobjs)))
+               ]
+          settings_tab.set_title(0, "General settings")
+          settings_tab.set_title(1, "Solver settings")
+          settings_tab.set_title(2, "Representations")
+          display(settings_tab)
 
      @line_magic
      def conjure_clear(self, line):

@@ -1,7 +1,7 @@
 from .ConjureMagics import ConjureMagics
 from .conjure import Conjure
 from os import path
-from IPython.core.display import display, HTML, Javascript
+from IPython.core.display import display, Javascript
 
 with open(path.join(path.abspath(path.dirname(__file__)), 'static/syntax-highlight.js')) as f:
     initHighlighter = f.read()

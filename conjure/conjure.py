@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE
 from .conjurehelper import ConjureHelper
 
 class Conjure:
-    def solve(self, args: str, code: str, shell_params: dict):
+    def solve(self, args: str, code: str, shell_params: dict) -> dict:
         conjurehelper = ConjureHelper()
         conjurehelper.clean_tmp_files() # clean temp files of previous run
 
@@ -36,12 +36,13 @@ class Conjure:
         if(error):
             raise Exception(error.decode('utf-8'))
         return json.loads(output.decode('utf-8'))
-        
-    def check_conjure():
+    
+    @staticmethod
+    def check_conjure() -> bool:
         try:
             pipes = Popen(["conjure", "--version"],shell=True,
                                     stdout=PIPE, stderr=PIPE)
-            (output, erroutput) = pipes.communicate()
+            (_, _) = pipes.communicate()
             if pipes.returncode != 0:
                 print("Error while initializing extension: cannot run conjure. Make sure conjure is on the PATH" , file=sys.stderr)
                 return False
