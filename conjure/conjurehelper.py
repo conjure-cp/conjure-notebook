@@ -37,7 +37,7 @@ class ConjureHelper:
         tempstr = "language Essence 1.3\n"
         for key, value in params.items():
             # python variable to conjure param text
-            tempstr += ConjureTypeConversion.to_conjure_param_text(key, value)
+            tempstr += ConjureTypeConversion.to_conjure_param_text(key, value) + ' \n'
         return self.create_temp_file(tempstr)
 
     def read_solution_json_file(self) -> dict:
