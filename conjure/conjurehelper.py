@@ -27,7 +27,7 @@ class ConjureHelper:
             raise Exception(error.decode('utf-8'))
         finds = []
         for dec in json.loads(output):
-            if dec.get('kind', '') == 'Given':
+            if dec.get('kind', '') == 'Given' or dec.get('kind', '') == 'enumerated type':
                 finds.append(dec.get('name'))
         return finds
 
@@ -38,6 +38,7 @@ class ConjureHelper:
         for key, value in params.items():
             # python variable to conjure param text
             tempstr += ConjureTypeConversion.to_conjure_param_text(key, value) + ' \n'
+        # print(tempstr)
         return self.create_temp_file(tempstr)
 
     def read_solution_json_file(self) -> dict:
