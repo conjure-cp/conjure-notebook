@@ -27,7 +27,7 @@ class ConjureHelper:
             raise Exception(error.decode('utf-8'))
         finds = []
         for dec in json.loads(output):
-            if dec.get('kind', '') == 'Given' or dec.get('kind', '') == 'enumerated type':
+            if dec.get('kind', '') == 'Given' or (dec.get('kind', '') == 'enumerated type' and dec.get('values', None) is None):
                 finds.append(dec.get('name'))
         return finds
 
