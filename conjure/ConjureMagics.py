@@ -1,7 +1,7 @@
 import sys
 import asyncio
 from IPython.core.magic import (
-    Magics, magics_class, line_cell_magic, line_magic)
+    Magics, magics_class, cell_magic, line_magic)
 from IPython.display import display
 import ipywidgets as widgets
 from .conjure import Conjure
@@ -27,7 +27,7 @@ class ConjureMagics(Magics):
         'Let the conjure choose', 'Take user selection']
     choose_representations_value = choose_representations_options[0]
 
-    @line_cell_magic
+    @cell_magic
     def conjure(self, args, code):
         conjure = Conjure()
 
