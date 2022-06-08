@@ -1,5 +1,5 @@
-from .ConjureMagics import ConjureMagics
-from .Conjure import Conjure
+from .conjuremagics import ConjureMagics
+from .conjure import Conjure
 from os import path
 from IPython.core.display import display, Javascript
 

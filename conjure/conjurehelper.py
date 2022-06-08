@@ -2,7 +2,7 @@ import os
 import tempfile
 import json
 from subprocess import Popen, PIPE
-from .ConjureTypeConversion import ConjureTypeConversion
+from .conjuretypeconversion import ConjureTypeConversion
 
 
 class ConjureHelper:

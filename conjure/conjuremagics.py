@@ -4,7 +4,7 @@ from IPython.core.magic import (
     Magics, magics_class, cell_magic, line_magic)
 from IPython.display import display
 import ipywidgets as widgets
-from .Conjure import Conjure
+from .conjure import Conjure
 
 
 @magics_class
