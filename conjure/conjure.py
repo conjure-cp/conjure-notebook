@@ -1,7 +1,7 @@
 import json
 import sys
 from subprocess import Popen, PIPE
-from conjure.conjureHelper import ConjureHelper
+from .conjureHelper import ConjureHelper
 
 
 class Conjure:
