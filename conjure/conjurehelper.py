@@ -12,7 +12,9 @@ class ConjureHelper:
             os.mkdir(self.tempdir)
 
     def create_temp_file(self, contents: str) -> str:
-        temp_filename = next(tempfile._get_candidate_names())
+        # use the current timestamp as the filename for the Essence file
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S")
+        temp_filename = timestamp + ".essence"
         with open(self.tempdir + "/" + temp_filename, "w") as file:
             file.write(contents)
             file.close()
