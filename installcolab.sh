@@ -8,5 +8,8 @@ git clone https://github.com/ogabek96/conjure-notebook-executable.git && cd "$(b
 chmod +x conjure savilerow savilerow.jar solvers/*
 cp -R conjure savilerow savilerow.jar solvers/* /usr/local/bin
 
+# we don't need to keep these around any more
+rm -rf conjure-notebook-executable
+
 # installing the conjure extension
 pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git
