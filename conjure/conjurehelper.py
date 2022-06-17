@@ -11,17 +11,17 @@ class ConjureHelper:
         if not os.path.isdir(self.tempdir):
             os.mkdir(self.tempdir)
 
-    def create_temp_file(self, contents: str) -> str:
+    def create_temp_file(self, extension : str, contents: str) -> str:
         # use the current timestamp as the filename for the Essence file
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S")
-        temp_filename = timestamp + ".essence"
+        temp_filename = "%s.%s" % (timestamp, extension)
         with open(self.tempdir + "/" + temp_filename, "w") as file:
             file.write(contents)
             file.close()
         return self.tempdir + "/" + temp_filename
 
     def get_required_params(self, code) -> list:
-        temp_essence_file = self.create_temp_file(code)
+        temp_essence_file = self.create_temp_file("essence", code)
         shell_output = Popen(["conjure ide " + temp_essence_file +
                              " --dump-declarations", ], shell=True, stdout=PIPE, stderr=PIPE)
         output, error = shell_output.communicate()
@@ -41,7 +41,7 @@ class ConjureHelper:
             # python variable to conjure param text
             tempstr += ConjureTypeConversion.to_conjure_param_text(key, value) + ' \n'
         # print(tempstr)
-        return self.create_temp_file(tempstr)
+        return self.create_temp_file("param", tempstr)
 
     def read_solution_json_file(self) -> dict:
         solution_nums = 0
