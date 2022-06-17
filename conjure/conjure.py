@@ -7,7 +7,7 @@ from .conjurehelper import ConjureHelper
 class Conjure:
     def solve(self, args: str, code: str, shell_params: dict) -> dict:
         conjurehelper = ConjureHelper()
-        # conjurehelper.clean_tmp_files()  # clean temp files of previous run
+        conjurehelper.clean_tmp_files()  # clean temp files of previous run
 
         param_names = conjurehelper.get_required_params(code)
         temp_essence_file = conjurehelper.create_temp_file("essence", code)
@@ -32,7 +32,7 @@ class Conjure:
 
     def get_representations(self, code: str):
         conjurehelper = ConjureHelper()
-        # conjurehelper.clean_tmp_files()  # clean temp files of previous run
+        conjurehelper.clean_tmp_files()  # clean temp files of previous run
         temp_essence_file = conjurehelper.create_temp_file("essence", code)
         shell_output = Popen(["conjure ide --dump-representations " +
                              temp_essence_file], shell=True, stdout=PIPE, stderr=PIPE)
