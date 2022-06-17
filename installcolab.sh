@@ -9,4 +9,4 @@ chmod +x conjure savilerow savilerow.jar solvers/*
 cp -R conjure savilerow savilerow.jar solvers/* /usr/local/bin
 
 # installing the conjure extension
-pip install git+https://github.com/conjure-cp/conjure-notebook.git
+pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git
