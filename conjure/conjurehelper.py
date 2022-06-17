@@ -64,14 +64,15 @@ class ConjureHelper:
             return {"conjure_solutions": solutions}
 
     def clean_tmp_files(self) -> None:
-        # # remove conjure-output-folder
-        # if os.path.isdir('./conjure-output'):
-        #     files = os.listdir('./conjure-output')
-        #     for f in files:
-        #         try:
-        #             os.remove('./conjure-output/' + f)
-        #         except:
-        #             pass
+        # remove conjure-output-folder
+        if os.path.isdir('./conjure-output'):
+            files = os.listdir('./conjure-output')
+            for f in files:
+                if f not in ["model000001.eprime", ".conjure-checksum"]:
+                    try:
+                        os.remove('./conjure-output/' + f)
+                    except:
+                        pass
         if os.path.isdir('./conjure-temp-files'):
             files = os.listdir('./conjure-temp-files')
             for f in files:
