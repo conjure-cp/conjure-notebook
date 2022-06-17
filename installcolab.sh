@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# remove the sample-data directory that google colab creates, we don't need them
+rm -rf sample-data
+
 # download latest release from Github
 rm -rf conjure-notebook-executable
 git clone https://github.com/ogabek96/conjure-notebook-executable.git && cd "$(basename "$_" .git)"
