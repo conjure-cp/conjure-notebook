@@ -5,7 +5,7 @@ rm -rf sample-data
 
 # download latest release from Github
 rm -rf conjure-notebook-executable
-git clone https://github.com/ogabek96/conjure-notebook-executable.git && cd "$(basename "$_" .git)"
+git clone --quiet https://github.com/ogabek96/conjure-notebook-executable.git && cd "$(basename "$_" .git)"
 
 # copy the executables to /usr/local/bin
 chmod +x conjure savilerow savilerow.jar solvers/*
