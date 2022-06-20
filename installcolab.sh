@@ -9,6 +9,11 @@ git clone --quiet https://github.com/ogabek96/conjure-notebook-executable.git
 
 (
 cd conjure-notebook-executable
+
+# download the latest conjure (temporary location)
+rm conjure
+wget https://ozgur.host.cs.st-andrews.ac.uk/files/conjure
+
 # copy the executables to /usr/local/bin
 chmod +x conjure savilerow savilerow.jar solvers/*
 cp -R conjure savilerow savilerow.jar solvers/* /usr/local/bin
@@ -19,3 +24,5 @@ rm -rf conjure-notebook-executable
 
 # installing the conjure extension
 pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git
+
+conjure --version
