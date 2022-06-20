@@ -2,7 +2,6 @@ import os
 import datetime
 import json
 from subprocess import Popen, PIPE
-from .conjuretypeconversion import ConjureTypeConversion
 
 
 class ConjureHelper:
@@ -36,12 +35,8 @@ class ConjureHelper:
     def create_params_file(self, params={}) -> str:
         if len(params.keys()) == 0:
             raise Exception("No params are given.")
-        tempstr = "language Essence 1.3\n"
-        for key, value in params.items():
-            # python variable to conjure param text
-            tempstr += ConjureTypeConversion.to_conjure_param_text(key, value) + ' \n'
-        # print(tempstr)
-        return self.create_temp_file("param", tempstr)
+        tempstr = json.dumps(params, indent=2)
+        return self.create_temp_file("param.json", tempstr)
 
     def read_solution_json_file(self) -> dict:
         solution_nums = 0
