@@ -12,7 +12,7 @@ cd conjure-notebook-executable
 
 # download the latest conjure (temporary location)
 rm conjure
-wget https://ozgur.host.cs.st-andrews.ac.uk/files/conjure
+wget -q https://ozgur.host.cs.st-andrews.ac.uk/files/conjure
 
 # copy the executables to /usr/local/bin
 chmod +x conjure savilerow savilerow.jar solvers/*
