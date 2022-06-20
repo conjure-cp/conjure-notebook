@@ -38,7 +38,6 @@ class ConjureHelper:
         for key, value in params.items():
             # python variable to conjure param text
             tempstr += ConjureTypeConversion.to_conjure_param_text(key, value) + ' \n'
-        # print(tempstr)
         return self.create_temp_file(tempstr)
 
     def read_solution_json_file(self) -> dict:

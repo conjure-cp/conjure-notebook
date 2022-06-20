@@ -147,7 +147,7 @@ class ConjureMagics(Magics):
 
         async def f3(radionbuttonobj):
             rep_vals = {}
-            for i in range(10):
+            while True:
                 rep_vals[radionbuttonobj['repName']] = await wait_for_change(radionbuttonobj['btn'], 'value')
                 self.conjure_representations[radionbuttonobj['repName']
                                              ] = rep_vals[radionbuttonobj['repName']].split(".")[0]
