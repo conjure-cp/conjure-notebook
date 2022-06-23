@@ -10,10 +10,6 @@ git clone --quiet https://github.com/ogabek96/conjure-notebook-executable.git
 (
 cd conjure-notebook-executable
 
-# download the latest conjure (temporary location)
-rm conjure
-wget -q https://ozgur.host.cs.st-andrews.ac.uk/files/conjure
-
 # copy the executables to /usr/local/bin
 chmod +x conjure savilerow savilerow.jar solvers/*
 cp -R conjure savilerow savilerow.jar solvers/* /usr/local/bin
