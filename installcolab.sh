@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Installing Conjure..."
+
 # remove the sample-data directory that google colab creates, we don't need them
 rm -rf sample_data
 
@@ -19,6 +21,6 @@ cp -R conjure savilerow savilerow.jar solvers/* /usr/local/bin
 rm -rf conjure-notebook-executable
 
 # installing the conjure extension
-pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git
+pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git > /dev/null
 
 conjure --version
