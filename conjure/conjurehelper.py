@@ -1,8 +1,7 @@
 import os
-import tempfile
+import datetime
 import json
 from subprocess import Popen, PIPE
-from .conjuretypeconversion import ConjureTypeConversion
 
 
 class ConjureHelper:
@@ -11,15 +10,17 @@ class ConjureHelper:
         if not os.path.isdir(self.tempdir):
             os.mkdir(self.tempdir)
 
-    def create_temp_file(self, contents: str) -> str:
-        temp_filename = next(tempfile._get_candidate_names())
+    def create_temp_file(self, extension : str, contents: str) -> str:
+        # use the current timestamp as the filename for the Essence file
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S")
+        temp_filename = "%s.%s" % (timestamp, extension)
         with open(self.tempdir + "/" + temp_filename, "w") as file:
             file.write(contents)
             file.close()
         return self.tempdir + "/" + temp_filename
 
     def get_required_params(self, code) -> list:
-        temp_essence_file = self.create_temp_file(code)
+        temp_essence_file = self.create_temp_file("essence", code)
         shell_output = Popen(["conjure ide " + temp_essence_file +
                              " --dump-declarations", ], shell=True, stdout=PIPE, stderr=PIPE)
         output, error = shell_output.communicate()
@@ -34,11 +35,8 @@ class ConjureHelper:
     def create_params_file(self, params={}) -> str:
         if len(params.keys()) == 0:
             raise Exception("No params are given.")
-        tempstr = "language Essence 1.3\n"
-        for key, value in params.items():
-            # python variable to conjure param text
-            tempstr += ConjureTypeConversion.to_conjure_param_text(key, value) + ' \n'
-        return self.create_temp_file(tempstr)
+        tempstr = json.dumps(params, indent=2)
+        return self.create_temp_file("param.json", tempstr)
 
     def read_solution_json_file(self) -> dict:
         solution_nums = 0
@@ -65,10 +63,11 @@ class ConjureHelper:
         if os.path.isdir('./conjure-output'):
             files = os.listdir('./conjure-output')
             for f in files:
-                try:
-                    os.remove('./conjure-output/' + f)
-                except:
-                    pass
+                if f not in ["model000001.eprime", ".conjure-checksum"]:
+                    try:
+                        os.remove('./conjure-output/' + f)
+                    except:
+                        pass
         if os.path.isdir('./conjure-temp-files'):
             files = os.listdir('./conjure-temp-files')
             for f in files:

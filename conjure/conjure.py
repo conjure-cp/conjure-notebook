@@ -10,7 +10,7 @@ class Conjure:
         conjurehelper.clean_tmp_files()  # clean temp files of previous run
 
         param_names = conjurehelper.get_required_params(code)
-        temp_essence_file = conjurehelper.create_temp_file(code)
+        temp_essence_file = conjurehelper.create_temp_file("essence", code)
         if len(param_names) > 0:
             params = {}
             for p in param_names:
@@ -33,7 +33,7 @@ class Conjure:
     def get_representations(self, code: str):
         conjurehelper = ConjureHelper()
         conjurehelper.clean_tmp_files()  # clean temp files of previous run
-        temp_essence_file = conjurehelper.create_temp_file(code)
+        temp_essence_file = conjurehelper.create_temp_file("essence", code)
         shell_output = Popen(["conjure ide --dump-representations " +
                              temp_essence_file], shell=True, stdout=PIPE, stderr=PIPE)
         output, error = shell_output.communicate()

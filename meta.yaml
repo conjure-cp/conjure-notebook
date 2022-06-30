@@ -24,6 +24,6 @@ test:
 
 about:
   home: https://github.com/conjure-cp/conjure-notebook
-  license: Mozilla Public License 2.0 (MPL 2.0)
-  license_file: LICENSE.txt
-  summary: Conjure extension for jupyter notebook
+  license: The 3-Clause BSD License
+  license_file: LICENSE
+  summary: Conjure extension for Jupyter Notebooks
