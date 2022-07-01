@@ -46,6 +46,11 @@ class ConjureMagics(Magics):
                 reps.append(repName + ":" + repAns)
             args += ' --responses-representation=' + ",".join(reps) + ' '
 
+        # removing language Essence 1.3 from code in incremental building
+        # we will only remove it in subsequent runs
+        if(len(self.conjure_models) > 0) and code.startswith('language Essence '):
+            code = "\n".join(code.split("\n")[1:])
+
         # code execution
         try:
             if code not in self.conjure_models:  # we won't add code to models if the code is already there
