@@ -8,6 +8,6 @@
 
 3. In the following Code cells Conjure commands will be available.
 
-See a vry simple example here: https://github.com/ozgurakgun/notebooks/blob/main/What_number_am_I%3F.ipynb
+See a very simple example here: https://github.com/ozgurakgun/notebooks/blob/main/What_number_am_I%3F.ipynb
 
 See demo videos made by @ogabek96 on Youtube: https://www.youtube.com/channel/UCqTAq8FiPNV4_xErHgH0rTg
