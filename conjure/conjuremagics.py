@@ -24,7 +24,7 @@ class ConjureMagics(Magics):
     selected_solver = 'chuffed'
 
     choose_representations_options = [
-        'Let the conjure choose', 'Take user selection']
+        'Use Conjure\'s default heuristic', 'Manual selection (using the Representations) tab']
     choose_representations_value = choose_representations_options[0]
 
     @cell_magic
@@ -203,5 +203,5 @@ class ConjureMagics(Magics):
         help_str += "%conjure_print - prints the previously ran conjure models.\n"
         help_str += "%conjure_rollback - removes the last appended conjure model.\n"
         help_str += "%conjure_settings - shows conjure settings menu.\n"
-        help_str += "More information about the conjure: https://conjure.readthedocs.io"
+        help_str += "More information about Conjure: https://conjure.readthedocs.io"
         print(help_str)
