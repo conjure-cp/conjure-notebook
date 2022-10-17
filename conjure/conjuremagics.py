@@ -73,8 +73,8 @@ class ConjureMagics(Magics):
             if len(resultdict.items()) == 1 and "conjure_solutions" in resultdict.keys():
                 print("Done. Found %d solutions." % len(resultdict["conjure_solutions"]))
                 print("Solutions are stored in Python variable: conjure_solutions")
-#             else:
-#                 print("Done.")
+            else:
+                print("Done.")
 
     @line_magic
     def conjure_settings(self, line):
