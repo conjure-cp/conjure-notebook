@@ -69,10 +69,10 @@ class ConjureMagics(Magics):
         if self.print_output == 'Yes':
             return resultdict
         else:
-            if len(resultdict.items() == 1:
+            if len(resultdict.items()) == 1:
                 print("Done.")
             else:
-                print("Done. Found %d solutions." % len(resultdict.items())
+                print("Done. Found %d solutions." % len(resultdict.items()))
 
     @line_magic
     def conjure_settings(self, line):
