@@ -69,7 +69,10 @@ class ConjureMagics(Magics):
         if self.print_output == 'Yes':
             return resultdict
         else:
-            print('Conjure execution is sucessfull. Output variables available.')
+            if len(resultdict.items() == 1:
+                print("Done.")
+            else:
+                print("Done. Found %d solutions." % len(resultdict.items())
 
     @line_magic
     def conjure_settings(self, line):
