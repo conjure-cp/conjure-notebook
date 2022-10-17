@@ -24,7 +24,7 @@ class ConjureMagics(Magics):
     selected_solver = 'chuffed'
 
     choose_representations_options = [
-        'Use Conjure\'s default heuristic', 'Manual selection (using the Representations) tab']
+        'Use Conjure\'s default heuristic', 'Manual selection (using the Representations tab)']
     choose_representations_value = choose_representations_options[0]
 
     @cell_magic
