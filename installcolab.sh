@@ -6,8 +6,8 @@ echo "Installing Conjure..."
 rm -rf sample_data
 
 # download latest release from Github
-wget --no-check-certificate -c https://github.com/conjure-cp/conjure/releases/download/v2.4.0/conjure-v2.4.0-linux-solvers.zip
-unzip -o conjure-v2.4.0-linux-solvers.zip
+wget --quiet --no-check-certificate -c https://github.com/conjure-cp/conjure/releases/download/v2.4.0/conjure-v2.4.0-linux-solvers.zip
+unzip -q -o conjure-v2.4.0-linux-solvers.zip
 cp -r conjure-v2.4.0-linux-solvers/* /usr/local/bin
 
 # we don't need to keep these around any more
