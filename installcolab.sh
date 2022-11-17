@@ -6,19 +6,12 @@ echo "Installing Conjure..."
 rm -rf sample_data
 
 # download latest release from Github
-rm -rf conjure-notebook-executable
-git clone --quiet https://github.com/ogabek96/conjure-notebook-executable.git
-
-(
-cd conjure-notebook-executable
-
-# copy the executables to /usr/local/bin
-chmod +x conjure savilerow savilerow.jar solvers/*
-cp -R conjure savilerow savilerow.jar solvers/* /usr/local/bin
-)
+wget --no-check-certificate -c https://github.com/conjure-cp/conjure/releases/download/v2.4.0/conjure-v2.4.0-linux-solvers.zip
+unzip conjure-v2.4.0-linux-solvers.zip
+cp -r conjure-v2.4.0-linux-solvers/* /usr/local/bin
 
 # we don't need to keep these around any more
-rm -rf conjure-notebook-executable
+rm -rf conjure-v2.4.0-linux-solvers conjure-v2.4.0-linux-solvers.zip
 
 # installing the conjure extension
 pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git > /dev/null
