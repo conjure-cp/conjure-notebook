@@ -3,7 +3,7 @@
 1. Create a new notebook on Google Colab
 2. Run the following command (2 lines) in a Code cell to install this extension.
 
-        !source <(curl https://raw.githubusercontent.com/conjure-cp/conjure-notebook/main/installcolab.sh)
+        !source <(curl -s https://raw.githubusercontent.com/conjure-cp/conjure-notebook/main/installcolab.sh)
         %load_ext conjure
 
 3. In the following Code cells Conjure commands will be available.
