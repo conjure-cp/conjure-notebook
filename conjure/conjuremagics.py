@@ -66,15 +66,26 @@ class ConjureMagics(Magics):
         # assign results to notebook environment
         for key, value in resultdict.items():
             self.shell.user_ns[key] = value
+        if len(resultdict['conjure_solutions']) == 1:
+            # assign results of single solution to notebook environment
+            for key, value in resultdict['conjure_solutions'][0].items():
+                self.shell.user_ns[key] = value
+
         if self.print_output == 'Yes':
-            return resultdict
-        else:
-            # found multiple solutions
-            if len(resultdict.items()) == 1 and "conjure_solutions" in resultdict.keys():
-                print("Done. Found %d solutions." % len(resultdict["conjure_solutions"]))
-                print("Solutions are stored in Python variable: conjure_solutions")
+            if len(resultdict['conjure_solutions']) == 0:
+                return "No solution"
+            if len(resultdict['conjure_solutions']) == 1:
+                return resultdict['conjure_solutions'][0]
             else:
-                print("Done.")
+                return resultdict['conjure_solutions']
+        else:
+            print("Done. Found %d solution(s)." % len(resultdict["conjure_solutions"]))
+            if len(resultdict['conjure_solutions']) == 1:
+                print("Variables have been assigned their value in the solution")
+                print("The solution is also stored in Python variable: conjure_solutions")
+            elif len(resultdict['conjure_solutions'] > 1):
+                print("Solutions are stored in Python variable: conjure_solutions")
+
 
     @line_magic
     def conjure_settings(self, line):
