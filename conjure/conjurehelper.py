@@ -43,7 +43,7 @@ class ConjureHelper:
         solutions = []
         try:
             if os.path.isdir('./conjure-output'):
-                files = os.listdir('./conjure-output')
+                files = sorted(os.listdir('./conjure-output'))
                 for f in files:
                     if f.endswith('.json'):
                         with open('./conjure-output/' + f) as file:
