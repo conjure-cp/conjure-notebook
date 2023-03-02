@@ -2,6 +2,7 @@ import os
 import datetime
 import json
 from subprocess import Popen, PIPE
+import uuid
 
 
 class ConjureHelper:
@@ -39,24 +40,18 @@ class ConjureHelper:
         return self.create_temp_file("param.json", tempstr)
 
     def read_solution_json_file(self) -> dict:
-        solution_nums = 0
         solutions = []
         try:
             if os.path.isdir('./conjure-output'):
-                files = os.listdir('./conjure-output')
+                files = sorted(os.listdir('./conjure-output'))
                 for f in files:
                     if f.endswith('.json'):
                         with open('./conjure-output/' + f) as file:
                             solutions.append(json.loads(file.read()))
-                            solution_nums += 1
         except:
             raise Exception('Error while reading json solution file(s).')
-        if solution_nums == 0:
-            raise Exception('No solution found for this Essence model.')
-        elif solution_nums == 1:
-            return solutions[0]
-        else:
-            return {"conjure_solutions": solutions}
+
+        return {"conjure_solutions": solutions}
 
     def clean_tmp_files(self) -> None:
         # remove conjure-output-folder
