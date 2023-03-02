@@ -15,7 +15,7 @@ See demo videos made by @ogabek96 on Youtube: https://www.youtube.com/channel/UC
 
 ## Making a release
 
-- Edit the versions in scripts/versions.sh
+- Edit the versions in scripts/install-colab.sh
 - Edit the version in the README.md example (this file!)
 - Create a tag, push to main, push the tag:
     - git commit scripts/versions.sh README.md -m "Updating version information"

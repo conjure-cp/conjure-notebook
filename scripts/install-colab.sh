@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source scripts/versions.sh
+CONJURE_VERSION=v2.4.0
+NOTEBOOK_VERSION=v0.0.2
 
 echo "Installing Conjure..."
 
