@@ -9,12 +9,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: "Set up Python"
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
-      
-      - name: "Install packages"
+
+      - name: Install packages
         run: pip install jupyterlab
 
       - name: Get conjure
@@ -23,8 +23,8 @@ jobs:
             unzip -q -o conjure-v2.4.0-linux-with-solvers.zip
             cp -r conjure-v2.4.0-linux-with-solvers/* /usr/local/bin
 
-      - name: "Install conjure-notebook"
+      - name: Install conjure-notebook
         run: pip install .
 
-      - name: "Run tests"
+      - name: Run tests
         run: cd test && ./run_tests.sh
