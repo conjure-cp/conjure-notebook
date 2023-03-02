@@ -55,17 +55,13 @@ class ConjureMagics(Magics):
         try:
             if code not in self.conjure_models:  # we won't add code to models if the code is already there
                 self.conjure_models.append(code)
-            resultdict = conjure.solve(args, '\n'.join(
-                self.conjure_models), dict(self.shell.user_ns))
+            resultdict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
 
         except Exception as err:
             self.conjure_models.pop()
             print("{}: {}".format(type(err).__name__, err), file=sys.stderr)
             return
 
-        # assign results to notebook environment
-        for key, value in resultdict.items():
-            self.shell.user_ns[key] = value
         if len(resultdict['conjure_solutions']) == 1:
             # assign results of single solution to notebook environment
             for key, value in resultdict['conjure_solutions'][0].items():

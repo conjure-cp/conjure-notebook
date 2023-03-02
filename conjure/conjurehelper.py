@@ -40,18 +40,19 @@ class ConjureHelper:
         return self.create_temp_file("param.json", tempstr)
 
     def read_solution_json_file(self) -> dict:
-        solutions = []
         try:
-            if os.path.isdir('./conjure-output'):
-                files = sorted(os.listdir('./conjure-output'))
-                for f in files:
-                    if f.endswith('.json'):
-                        with open('./conjure-output/' + f) as file:
-                            solutions.append(json.loads(file.read()))
-        except:
-            raise Exception('Error while reading json solution file(s).')
-
-        return {"conjure_solutions": solutions}
+            for p in os.listdir('conjure-output'):
+                if p.endswith('solutions.json'):
+                    with open("conjure-output/" + p) as f:
+                        filecontent = f.read()
+                        # there is a bug in Conjure's latest release...
+                        if filecontent.strip() == "]":
+                            return {"conjure_solutions": []}
+                        else:
+                            with open("conjure-output/" + p) as f:
+                                return {'conjure_solutions': json.load(f)}
+        except Exception as e:
+            raise Exception('Error while reading json solution file.')
 
     def clean_tmp_files(self) -> None:
         # remove conjure-output-folder
