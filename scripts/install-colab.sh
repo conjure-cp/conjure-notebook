@@ -17,6 +17,6 @@ cp -r conjure-${CONJURE_VERSION}-linux-with-solvers/* /usr/local/bin
 rm -rf conjure-${CONJURE_VERSION}-linux-with-solvers conjure-${CONJURE_VERSION}-linux-with-solvers.zip
 
 # installing the conjure extension
-pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git > /dev/null
+pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git@${NOTEBOOK_VERSION} > /dev/null
 
 conjure --version
