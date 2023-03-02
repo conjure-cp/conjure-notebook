@@ -1,6 +1,11 @@
+
 on:
-  pull_request:
+  workflow_dispatch:        # can be triggered manually
   push:
+    branches:
+      - main                # run for the main branch
+  pull_request:             # and for PRs
+                            # other branches that want testing must create a PR
 
 jobs:
   test:
