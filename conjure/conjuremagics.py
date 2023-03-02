@@ -41,9 +41,9 @@ class ConjureMagics(Magics):
         # adding representations
         # only add representations if user selected so on settings
         if self.choose_representations_value == self.choose_representations_options[1] and len(self.conjure_representations.keys()) > 0:
-              reps = []
-               for repName, repAns in self.conjure_representations.items():
-                    reps.append(repName + ":" + repAns)
+            reps = []
+            for repName, repAns in self.conjure_representations.items():
+                reps.append(repName + ":" + repAns)
                 args += ' --responses-representation=' + ",".join(reps) + ' '
 
         # removing language Essence 1.3 from code in incremental building
