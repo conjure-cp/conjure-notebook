@@ -3,7 +3,7 @@
 CONJURE_VERSION=v2.4.0
 NOTEBOOK_VERSION=v0.0.2
 
-echo "Installing Conjure..."
+echo "Installing Conjure version ${CONJURE_VERSION} and Conjure Notebook version ${NOTEBOOK_VERSION}..."
 
 # remove the sample-data directory that google colab creates, we don't need them
 rm -rf sample_data
