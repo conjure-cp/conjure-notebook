@@ -11,7 +11,7 @@ class ConjureHelper:
         if not os.path.isdir(self.tempdir):
             os.mkdir(self.tempdir)
 
-    def create_temp_file(self, extension : str, contents: str) -> str:
+    def create_temp_file(self, extension: str, contents: str) -> str:
         # use the current timestamp as the filename for the Essence file
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S")
         temp_filename = "%s.%s" % (timestamp, extension)

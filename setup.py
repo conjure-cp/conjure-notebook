@@ -4,17 +4,17 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="conjure",
-    version="v2.3.0",
-    author="Ogabek Yusupov",
-    author_email="ogabekyusupov@gmail.com",
-    description="Conjure extension for jupyter notebook",
+    name="Conjure Notebook",
+    version="v0.0.2",
+    author="Ogabek Yusupov, Özgür Akgün, Chris Jefferson",
+    author_email="ogabekyusupov@gmail.com, ozgur.akgun@st-andrews.ac.uk, caj21@st-andrews.ac.uk",
+    description="A Jupyter notebook extension for the automated constraint modelling tool Conjure",
     long_description=long_description,
     url="https://github.com/conjure-cp/conjure-notebook",
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=[
-           'ipywidgets>=7,<8',
+        'ipywidgets>=7,<8',
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

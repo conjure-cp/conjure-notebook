@@ -26,7 +26,7 @@ class Conjure:
                                  " --output-format=json --solutions-in-one-file --solver=chuffed " + args, ], shell=True, stdout=PIPE, stderr=PIPE)
 
         _, error = shell_output.communicate()
-        if(error):
+        if error:
             raise Exception(error.decode('utf-8'))
         return conjurehelper.read_solution_json_file()
 
@@ -37,7 +37,7 @@ class Conjure:
         shell_output = Popen(["conjure ide --dump-representations " +
                              temp_essence_file], shell=True, stdout=PIPE, stderr=PIPE)
         output, error = shell_output.communicate()
-        if(error):
+        if error:
             raise Exception(error.decode('utf-8'))
         return json.loads(output.decode('utf-8'))
 

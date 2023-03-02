@@ -21,8 +21,9 @@ You do not have to use Google Colab to use Conjure Notebook. Currently we do not
 This section is main for the benefit of the project maintainers.
 
 - Edit the versions in scripts/install-colab.sh
+- Edit the version in setup.py
 - Edit the version in the README.md example (this file!)
 - Create a tag, push to main, push the tag:
-    - git commit scripts/versions.sh README.md -m "Updating version information"
+    - git commit scripts/versions.sh README.md setup.py -m "Updating version information"
     - git tag -a v3.1.4 -m "version 3.1.4"
     - git push origin main --tags
