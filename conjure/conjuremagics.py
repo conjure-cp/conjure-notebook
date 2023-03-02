@@ -39,23 +39,25 @@ class ConjureMagics(Magics):
             args += ' --number-of-solutions=all '
 
         # adding representations
-        if(self.choose_representations_value == self.choose_representations_options[1]  # only add representations if user selected so on settings
-           and len(self.conjure_representations.keys()) > 0):
-            reps = []
-            for repName, repAns in self.conjure_representations.items():
-                reps.append(repName + ":" + repAns)
-            args += ' --responses-representation=' + ",".join(reps) + ' '
+        # only add representations if user selected so on settings
+        if self.choose_representations_value == self.choose_representations_options[1]
+         and len(self.conjure_representations.keys()) > 0:
+              reps = []
+               for repName, repAns in self.conjure_representations.items():
+                    reps.append(repName + ":" + repAns)
+                args += ' --responses-representation=' + ",".join(reps) + ' '
 
         # removing language Essence 1.3 from code in incremental building
         # we will only remove it in subsequent runs
-        if(len(self.conjure_models) > 0) and code.startswith('language Essence '):
+        if len(self.conjure_models) > 0 and code.startswith('language Essence '):
             code = "\n".join(code.split("\n")[1:])
 
         # code execution
         try:
             if code not in self.conjure_models:  # we won't add code to models if the code is already there
                 self.conjure_models.append(code)
-            resultdict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
+            resultdict = conjure.solve(args, '\n'.join(
+                self.conjure_models), dict(self.shell.user_ns))
 
         except Exception as err:
             self.conjure_models.pop()
@@ -75,13 +77,14 @@ class ConjureMagics(Magics):
             else:
                 return resultdict['conjure_solutions']
         else:
-            print("Done. Found %d solution(s)." % len(resultdict["conjure_solutions"]))
+            print("Done. Found %d solution(s)." %
+                  len(resultdict["conjure_solutions"]))
             if len(resultdict['conjure_solutions']) == 1:
                 print("Variables have been assigned their value in the solution")
-                print("The solution is also stored in Python variable: conjure_solutions")
+                print(
+                    "The solution is also stored in Python variable: conjure_solutions")
             elif len(resultdict['conjure_solutions'] > 1):
                 print("Solutions are stored in Python variable: conjure_solutions")
-
 
     @line_magic
     def conjure_settings(self, line):
@@ -201,7 +204,7 @@ class ConjureMagics(Magics):
 
     @line_magic
     def conjure_rollback(self, line):
-        if(len(self.conjure_models) == 0):
+        if len(self.conjure_models) == 0:
             print("Exception: conjure model is empty.", file=sys.stderr)
             return
         self.conjure_models.pop()
