@@ -1,4 +1,4 @@
-# Quick start
+# Quick start on Google Colab
 
 1. Create a new notebook on Google Colab
 2. Run the following command (2 lines) in a Code cell to install this extension.
@@ -12,8 +12,13 @@ See a very simple example here: https://github.com/ozgurakgun/notebooks/blob/mai
 
 See demo videos made by @ogabek96 on Youtube: https://www.youtube.com/channel/UCqTAq8FiPNV4_xErHgH0rTg
 
+# Quick start on Jupyter Notebooks
+
+You do not have to use Google Colab to use Conjure Notebook. Currently we do not provide a script to install it on a pure Jupyter environment. Please have a look at the [scripts/install-colab.sh](https://github.com/conjure-cp/conjure-notebook/blob/main/scripts/install-colab.sh) to see the steps.
 
 ## Making a release
+
+This section is main for the benefit of the project maintainers.
 
 - Edit the versions in scripts/install-colab.sh
 - Edit the version in the README.md example (this file!)
