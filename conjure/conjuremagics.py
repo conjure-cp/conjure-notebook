@@ -62,6 +62,7 @@ class ConjureMagics(Magics):
             print("{}: {}".format(type(err).__name__, err), file=sys.stderr)
             return
 
+        self.shell.user_ns['conjure_solutions'] = resultdict['conjure_solutions']
         if len(resultdict['conjure_solutions']) == 1:
             # assign results of single solution to notebook environment
             for key, value in resultdict['conjure_solutions'][0].items():
@@ -73,7 +74,7 @@ class ConjureMagics(Magics):
             if len(resultdict['conjure_solutions']) == 1:
                 return resultdict['conjure_solutions'][0]
             else:
-                return resultdict['conjure_solutions']
+                return resultdict
         else:
             print("Done. Found %d solution(s)." %
                   len(resultdict["conjure_solutions"]))
