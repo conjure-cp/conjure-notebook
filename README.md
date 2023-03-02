@@ -3,7 +3,7 @@
 1. Create a new notebook on Google Colab
 2. Run the following command (2 lines) in a Code cell to install this extension.
 
-        !source <(curl -s https://raw.githubusercontent.com/conjure-cp/conjure-notebook/v0.0.3/scripts/install-colab.sh)
+        !source <(curl -s https://raw.githubusercontent.com/conjure-cp/conjure-notebook/v0.0.4/scripts/install-colab.sh)
         %load_ext conjure
 
 3. In the following Code cells Conjure commands will be available.
@@ -27,4 +27,4 @@ This section is mainly for the benefit of the project maintainers.
     - git commit README.md setup.py scripts/install-colab.sh -m "Updating version information to v3.1.4"
     - git tag -a v3.1.4 -m "release v3.1.4"
     - git push origin main --tags
-- (Optionally) edit the version in scripts/install-colab.sh to "main" so it tracks the latest commit
+- (Optionally) edit the version in scripts/install-colab.sh to "main" so it tracks the latest commit, and push.
