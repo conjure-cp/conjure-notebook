@@ -75,26 +75,26 @@ class ConjureMagics(Magics):
             if len(resultdict['conjure_solutions']) == 0:
                 output_md += "No solution"
             if len(resultdict['conjure_solutions']) == 1:
-                output_md += "```json"
-                output_md += resultdict['conjure_solutions'][0]
+                output_md += "```json\n"
+                output_md += str(resultdict['conjure_solutions'][0]) + "\n"
                 output_md += "```"
             else:
-                output_md += "```json"
-                output_md += resultdict
+                output_md += "```json\n"
+                output_md += str(resultdict) + "\n"
                 output_md += "```"
         else:
-            output_md += "Done. Found %d solution(s)." % len(resultdict["conjure_solutions"])
+            output_md += "Done. Found %d solution(s).\n" % len(resultdict["conjure_solutions"])
             if len(resultdict['conjure_solutions']) == 1:
-                output_md += "Variables have been assigned their value in the solution"
-                output_md += "The solution is also stored in Python variable: `conjure_solutions`"
+                output_md += "Variables have been assigned their value in the solution\n"
+                output_md += "The solution is also stored in Python variable: `conjure_solutions`\n"
             elif len(resultdict['conjure_solutions'] > 1):
-                output_md += "Solutions are stored in Python variable: `conjure_solutions`"
+                output_md += "Solutions are stored in Python variable: `conjure_solutions`\n"
 
         # if self.print_info == 'Yes':
-        output_md += "| Statistic | Value |"
-        print("--------------------")
+        output_md += "| Statistic | Value |\n"
+        output_md += "--------------------\n"
         for k,v in infodict.items():
-            output_md += "| %s | %s |" % (k.strip(), v.strip())
+            output_md += "| %s | %s |\n" % (k.strip(), v.strip())
 
         display(Markdown(output_md))
 
