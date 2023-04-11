@@ -75,12 +75,12 @@ class ConjureMagics(Magics):
             if len(resultdict['conjure_solutions']) == 1:
                 output_md = "```json\n"
                 output_md += json.dumps(resultdict['conjure_solutions'][0], indent=2)
-                output_md += "```"
+                output_md += "\n```"
                 display(Markdown(output_md))
             else:
                 output_md = "```json\n"
                 output_md += json.dumps(resultdict, indent=2)
-                output_md += "```"
+                output_md += "\n```"
                 display(Markdown(output_md))
         else:
             if len(resultdict['conjure_solutions']) == 1:
@@ -93,7 +93,7 @@ class ConjureMagics(Magics):
 
         if self.print_info == 'Yes':
             output_md = "| Statistic | Value |\n"
-            output_md += "| :- | -: |\n"
+            output_md += "|:-|-:|\n"
             for k,v in infodict.items():
                 output_md += "| %s | %s |\n" % (k.strip(), v.strip())
             display(Markdown(output_md))
