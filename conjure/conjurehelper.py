@@ -54,6 +54,20 @@ class ConjureHelper:
         except Exception as e:
             raise Exception('Error while reading json solution file.')
 
+    def read_info_json_file(self) -> dict:
+        try:
+            for p in os.listdir('conjure-output'):
+                if p.endswith('.eprime-info'):
+                    with open("conjure-output/" + p) as f:
+                        filecontent = f.read()
+                        obj = {}
+                        for line in filecontent:
+                            [k,v] = line.split(':')
+                            obj[k] = v
+                        return obj
+        except Exception as e:
+            raise Exception('Error while reading the info file.')
+            
     def clean_tmp_files(self) -> None:
         # remove conjure-output-folder
         if os.path.isdir('./conjure-output'):
