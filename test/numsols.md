@@ -27,10 +27,13 @@ such that
 ```
 
 
+No solution
 
 
-    'No solution'
 
+```json
+{"conjure_solutions": []}
+```
 
 
 
@@ -65,18 +68,9 @@ such that
 ```
 
 
-
-
-    {'conjure_solutions': [{'x': 0},
-      {'x': 1},
-      {'x': 2},
-      {'x': 3},
-      {'x': 4},
-      {'x': 5},
-      {'x': 6},
-      {'x': 8},
-      {'x': 9}]}
-
+```json
+{"conjure_solutions": [{"x": 0}, {"x": 1}, {"x": 2}, {"x": 3}, {"x": 4}, {"x": 5}, {"x": 6}, {"x": 8}, {"x": 9}]}
+```
 
 
 
@@ -110,10 +104,9 @@ such that
 ```
 
 
-
-
-    {'x': 1, 'y': 7}
-
+```json
+{"x": 1, "y": 7}
+```
 
 
 
