@@ -103,7 +103,7 @@ class ConjureMagics(Magics):
             layout=widgets.Layout(width='80%')
         )
 
-        conjure_output_rbtns = widgets.RadioButtons(
+        conjure_info_rbtns = widgets.RadioButtons(
             options=['Yes', 'No'],
             value=self.print_info,
             description='Print info',
@@ -167,6 +167,12 @@ class ConjureMagics(Magics):
                 self.print_output = x
         asyncio.ensure_future(f())
 
+        async def f0():
+            while True:
+                x = await wait_for_change(conjure_info_rbtns, 'value')
+                self.print_info = x
+        asyncio.ensure_future(f())
+
         async def f1():
             while True:
                 x = await wait_for_change(conjure_solvers_rbtns, 'value')
@@ -197,7 +203,7 @@ class ConjureMagics(Magics):
         settings_tab = widgets.Tab()
         settings_tab.children = [
             widgets.VBox(
-                [conjure_output_rbtns, conjure_choose_reps_rbtns, conjure_number_of_sols_inp]),
+                [conjure_output_rbtns, conjure_info_rbtns, conjure_choose_reps_rbtns, conjure_number_of_sols_inp]),
             conjure_solvers_rbtns,
             widgets.VBox(list(map(lambda x: x["btn"], radionbuttonobjs)))
         ]
