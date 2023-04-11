@@ -5,7 +5,7 @@ from IPython.core.magic import (
 from IPython.display import display, Markdown
 import ipywidgets as widgets
 from .conjure import Conjure
-
+import json
 
 @magics_class
 class ConjureMagics(Magics):
@@ -76,11 +76,11 @@ class ConjureMagics(Magics):
                 output_md += "No solution\n\n"
             if len(resultdict['conjure_solutions']) == 1:
                 output_md += "```json\n"
-                output_md += str(resultdict['conjure_solutions'][0]) + "\n"
+                output_md += json.dumps(resultdict['conjure_solutions'][0], indent=2) + "\n"
                 output_md += "```\n\n"
             else:
                 output_md += "```json\n"
-                output_md += str(resultdict) + "\n"
+                output_md += json.dumps(resultdict, indent=2) + "\n"
                 output_md += "```\n\n"
         else:
             if len(resultdict['conjure_solutions']) == 1:
@@ -91,11 +91,11 @@ class ConjureMagics(Magics):
                 output_md += "Done. Found %d solutions.\n" % len(resultdict["conjure_solutions"])
                 output_md += "Solutions are stored in Python variable: `conjure_solutions`\n\n"
 
-        # if self.print_info == 'Yes':
-        output_md += "| Statistic | Value |\n"
-        output_md += "| :- | -: |\n"
-        for k,v in infodict.items():
-            output_md += "| %s | %s |\n" % (k.strip(), v.strip())
+        if self.print_info == 'Yes':
+            output_md += "| Statistic | Value |\n"
+            output_md += "| :- | -: |\n"
+            for k,v in infodict.items():
+                output_md += "| %s | %s |\n" % (k.strip(), v.strip())
 
         display(Markdown(output_md))
 
