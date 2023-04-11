@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONJURE_VERSION=v2.4.0
-NOTEBOOK_VERSION=v0.0.5
+NOTEBOOK_VERSION=main
 
 echo "Installing Conjure version ${CONJURE_VERSION} and Conjure Notebook version ${NOTEBOOK_VERSION}..."
 
