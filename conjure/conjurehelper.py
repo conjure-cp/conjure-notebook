@@ -43,17 +43,30 @@ class ConjureHelper:
         try:
             for p in os.listdir('conjure-output'):
                 if p.endswith('solutions.json'):
-                    with open("conjure-output/" + p) as f:
+                    with open("conjure-output/" + p, "r") as f:
                         filecontent = f.read()
                         # there is a bug in Conjure's latest release...
                         if filecontent.strip() == "]":
                             return {"conjure_solutions": []}
                         else:
-                            with open("conjure-output/" + p) as f:
+                            with open("conjure-output/" + p, "r") as f:
                                 return {'conjure_solutions': json.load(f)}
         except Exception as e:
-            raise Exception('Error while reading json solution file.')
+            raise Exception('Error while reading the solution file.')
 
+    def read_info_json_file(self) -> dict:
+        try:
+            for p in os.listdir('conjure-output'):
+                if p.endswith('.eprime-info'):
+                    with open("conjure-output/" + p, "r") as f:
+                        obj = {}
+                        for line in f:
+                            [k,v] = line.split(':')
+                            obj[k] = v
+                        return obj
+        except Exception as e:
+            raise Exception('Error while reading the info file. ' + str(e))
+            
     def clean_tmp_files(self) -> None:
         # remove conjure-output-folder
         if os.path.isdir('./conjure-output'):

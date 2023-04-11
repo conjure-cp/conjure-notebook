@@ -28,3 +28,4 @@ This section is mainly for the benefit of the project maintainers.
     - git tag -a v3.1.4 -m "release v3.1.4"
     - git push origin main --tags
 - (Optionally) edit the version in scripts/install-colab.sh to "main" so it tracks the latest commit, and push.
+    - git commit scripts/install-colab.sh -m "install latest version on main when called from the main branch"

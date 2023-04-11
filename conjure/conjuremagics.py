@@ -2,10 +2,10 @@ import sys
 import asyncio
 from IPython.core.magic import (
     Magics, magics_class, cell_magic, line_magic)
-from IPython.display import display
+from IPython.display import display, Markdown, JSON
 import ipywidgets as widgets
 from .conjure import Conjure
-
+import json
 
 @magics_class
 class ConjureMagics(Magics):
@@ -17,6 +17,7 @@ class ConjureMagics(Magics):
     conjure_representations = {}
     # print output of conjure execution
     print_output = 'Yes'
+    print_info = 'No'
     # supported solvers
     conjure_solvers = ['minion', 'gecode', 'chuffed', 'glucose', 'glucose-syrup',
                        'lingeling', 'cadical', 'kissat', 'minisat', 'bc_minisat_all', 'nbc_minisat_all',
@@ -55,7 +56,7 @@ class ConjureMagics(Magics):
         try:
             if code not in self.conjure_models:  # we won't add code to models if the code is already there
                 self.conjure_models.append(code)
-            resultdict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
+            resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
 
         except Exception as err:
             self.conjure_models.pop()
@@ -70,20 +71,32 @@ class ConjureMagics(Magics):
 
         if self.print_output == 'Yes':
             if len(resultdict['conjure_solutions']) == 0:
-                return "No solution"
+                display(Markdown("No solution"))
             if len(resultdict['conjure_solutions']) == 1:
-                return resultdict['conjure_solutions'][0]
+                output_md = "```json\n"
+                output_md += json.dumps(resultdict['conjure_solutions'][0])
+                output_md += "\n```"
+                display(Markdown(output_md))
             else:
-                return resultdict
+                output_md = "```json\n"
+                output_md += json.dumps(resultdict)
+                output_md += "\n```"
+                display(Markdown(output_md))
         else:
-            print("Done. Found %d solution(s)." %
-                  len(resultdict["conjure_solutions"]))
             if len(resultdict['conjure_solutions']) == 1:
-                print("Variables have been assigned their value in the solution")
-                print(
-                    "The solution is also stored in Python variable: conjure_solutions")
-            elif len(resultdict['conjure_solutions'] > 1):
-                print("Solutions are stored in Python variable: conjure_solutions")
+                display(Markdown("Done. Found 1 solution."))
+                display(Markdown("Variables have been assigned their value in the solution"))
+                display(Markdown("The solution is also stored in Python variable: `conjure_solutions`"))
+            else:
+                display(Markdown("Done. Found %d solutions.\n" % len(resultdict["conjure_solutions"])))
+                display(Markdown("Solutions are stored in Python variable: `conjure_solutions`"))
+
+        if self.print_info == 'Yes':
+            output_md = "| Statistic | Value |\n"
+            output_md += "|:-|-:|\n"
+            for k,v in infodict.items():
+                output_md += "| %s | %s |\n" % (k.strip(), v.strip())
+            display(Markdown(output_md))
 
     @line_magic
     def conjure_settings(self, line):
@@ -92,6 +105,14 @@ class ConjureMagics(Magics):
             options=['Yes', 'No'],
             value=self.print_output,
             description='Print conjure output',
+            style={'description_width': 'initial'},
+            layout=widgets.Layout(width='80%')
+        )
+
+        conjure_info_rbtns = widgets.RadioButtons(
+            options=['Yes', 'No'],
+            value=self.print_info,
+            description='Print info',
             style={'description_width': 'initial'},
             layout=widgets.Layout(width='80%')
         )
@@ -152,6 +173,12 @@ class ConjureMagics(Magics):
                 self.print_output = x
         asyncio.ensure_future(f())
 
+        async def f0():
+            while True:
+                x = await wait_for_change(conjure_info_rbtns, 'value')
+                self.print_info = x
+        asyncio.ensure_future(f0())
+
         async def f1():
             while True:
                 x = await wait_for_change(conjure_solvers_rbtns, 'value')
@@ -182,7 +209,7 @@ class ConjureMagics(Magics):
         settings_tab = widgets.Tab()
         settings_tab.children = [
             widgets.VBox(
-                [conjure_output_rbtns, conjure_choose_reps_rbtns, conjure_number_of_sols_inp]),
+                [conjure_output_rbtns, conjure_info_rbtns, conjure_choose_reps_rbtns, conjure_number_of_sols_inp]),
             conjure_solvers_rbtns,
             widgets.VBox(list(map(lambda x: x["btn"], radionbuttonobjs)))
         ]
