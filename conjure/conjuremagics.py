@@ -171,7 +171,7 @@ class ConjureMagics(Magics):
             while True:
                 x = await wait_for_change(conjure_info_rbtns, 'value')
                 self.print_info = x
-        asyncio.ensure_future(f())
+        asyncio.ensure_future(f0())
 
         async def f1():
             while True:
