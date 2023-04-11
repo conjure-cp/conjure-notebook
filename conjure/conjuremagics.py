@@ -2,7 +2,7 @@ import sys
 import asyncio
 from IPython.core.magic import (
     Magics, magics_class, cell_magic, line_magic)
-from IPython.display import display
+from IPython.display import display, Markdown
 import ipywidgets as widgets
 from .conjure import Conjure
 
@@ -69,28 +69,34 @@ class ConjureMagics(Magics):
             for key, value in resultdict['conjure_solutions'][0].items():
                 self.shell.user_ns[key] = value
 
+        output_md = ""
+
         if self.print_output == 'Yes':
             if len(resultdict['conjure_solutions']) == 0:
-                print("No solution")
+                output_md += "No solution"
             if len(resultdict['conjure_solutions']) == 1:
-                print(resultdict['conjure_solutions'][0])
+                output_md += "```json"
+                output_md += resultdict['conjure_solutions'][0]
+                output_md += "```"
             else:
-                print(resultdict)
+                output_md += "```json"
+                output_md += resultdict
+                output_md += "```"
         else:
-            print("Done. Found %d solution(s)." %
-                  len(resultdict["conjure_solutions"]))
+            output_md += "Done. Found %d solution(s)." % len(resultdict["conjure_solutions"])
             if len(resultdict['conjure_solutions']) == 1:
-                print("Variables have been assigned their value in the solution")
-                print(
-                    "The solution is also stored in Python variable: conjure_solutions")
+                output_md += "Variables have been assigned their value in the solution"
+                output_md += "The solution is also stored in Python variable: `conjure_solutions`"
             elif len(resultdict['conjure_solutions'] > 1):
-                print("Solutions are stored in Python variable: conjure_solutions")
+                output_md += "Solutions are stored in Python variable: `conjure_solutions`"
 
         # if self.print_info == 'Yes':
-        print("| Statistic | Value |")
+        output_md += "| Statistic | Value |"
         print("--------------------")
         for k,v in infodict.items():
-            print("| %s | %s |" % (k,v))
+            output_md += "| %s | %s |" % (k.strip(), v.strip())
+
+        display(Markdown(output_md))
 
     @line_magic
     def conjure_settings(self, line):
