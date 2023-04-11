@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Conjure Notebook",
-    version="v0.0.4",
+    version="v0.0.5",
     author="Ogabek Yusupov, Özgür Akgün, Chris Jefferson",
     author_email="ogabekyusupov@gmail.com, ozgur.akgun@st-andrews.ac.uk, caj21@st-andrews.ac.uk",
     description="A Jupyter notebook extension for the automated constraint modelling tool Conjure",
