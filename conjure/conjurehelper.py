@@ -52,7 +52,7 @@ class ConjureHelper:
                             with open("conjure-output/" + p) as f:
                                 return {'conjure_solutions': json.load(f)}
         except Exception as e:
-            raise Exception('Error while reading json solution file.')
+            raise Exception('Error while reading the solution file.')
 
     def read_info_json_file(self) -> dict:
         try:
@@ -66,7 +66,7 @@ class ConjureHelper:
                             obj[k] = v
                         return obj
         except Exception as e:
-            raise Exception('Error while reading the info file.')
+            raise Exception('Error while reading the info file. ' + str(e))
             
     def clean_tmp_files(self) -> None:
         # remove conjure-output-folder
