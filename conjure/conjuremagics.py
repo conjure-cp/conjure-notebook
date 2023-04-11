@@ -2,7 +2,7 @@ import sys
 import asyncio
 from IPython.core.magic import (
     Magics, magics_class, cell_magic, line_magic)
-from IPython.display import display, Markdown
+from IPython.display import display, Markdown, JSON
 import ipywidgets as widgets
 from .conjure import Conjure
 import json
@@ -69,35 +69,28 @@ class ConjureMagics(Magics):
             for key, value in resultdict['conjure_solutions'][0].items():
                 self.shell.user_ns[key] = value
 
-        output_md = ""
-
         if self.print_output == 'Yes':
             if len(resultdict['conjure_solutions']) == 0:
-                output_md += "No solution\n\n"
+                display(Markdown("lNo solution"))
             if len(resultdict['conjure_solutions']) == 1:
-                output_md += "```json\n"
-                output_md += json.dumps(resultdict['conjure_solutions'][0], indent=2) + "\n"
-                output_md += "```\n\n"
+                display(JSON(resultdict['conjure_solutions'][0]))
             else:
-                output_md += "```json\n"
-                output_md += json.dumps(resultdict, indent=2) + "\n"
-                output_md += "```\n\n"
+                display(JSON(resultdict))
         else:
             if len(resultdict['conjure_solutions']) == 1:
-                output_md += "Done. Found 1 solution.\n\n"
-                output_md += "Variables have been assigned their value in the solution\n\n"
-                output_md += "The solution is also stored in Python variable: `conjure_solutions`\n\n"
+                display(Markdown("Done. Found 1 solution."))
+                display(Markdown("Variables have been assigned their value in the solution"))
+                display(Markdown("The solution is also stored in Python variable: `conjure_solutions`"))
             else:
-                output_md += "Done. Found %d solutions.\n" % len(resultdict["conjure_solutions"])
-                output_md += "Solutions are stored in Python variable: `conjure_solutions`\n\n"
+                display(Markdown("Done. Found %d solutions.\n" % len(resultdict["conjure_solutions"])))
+                display(Markdown("Solutions are stored in Python variable: `conjure_solutions`"))
 
         if self.print_info == 'Yes':
-            output_md += "| Statistic | Value |\n"
+            output_md = "| Statistic | Value |\n"
             output_md += "| :- | -: |\n"
             for k,v in infodict.items():
                 output_md += "| %s | %s |\n" % (k.strip(), v.strip())
-
-        display(Markdown(output_md))
+            display(Markdown(output_md))
 
     @line_magic
     def conjure_settings(self, line):
