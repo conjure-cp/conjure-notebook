@@ -43,13 +43,13 @@ class ConjureHelper:
         try:
             for p in os.listdir('conjure-output'):
                 if p.endswith('solutions.json'):
-                    with open("conjure-output/" + p) as f:
+                    with open("conjure-output/" + p, "r") as f:
                         filecontent = f.read()
                         # there is a bug in Conjure's latest release...
                         if filecontent.strip() == "]":
                             return {"conjure_solutions": []}
                         else:
-                            with open("conjure-output/" + p) as f:
+                            with open("conjure-output/" + p, "r") as f:
                                 return {'conjure_solutions': json.load(f)}
         except Exception as e:
             raise Exception('Error while reading the solution file.')
@@ -58,10 +58,9 @@ class ConjureHelper:
         try:
             for p in os.listdir('conjure-output'):
                 if p.endswith('.eprime-info'):
-                    with open("conjure-output/" + p) as f:
-                        filecontent = f.read()
+                    with open("conjure-output/" + p, "r") as f:
                         obj = {}
-                        for line in filecontent:
+                        for line in f:
                             [k,v] = line.split(':')
                             obj[k] = v
                         return obj
