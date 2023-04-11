@@ -73,7 +73,7 @@ class ConjureMagics(Magics):
 
         if self.print_output == 'Yes':
             if len(resultdict['conjure_solutions']) == 0:
-                output_md += "No solution"
+                output_md += "No solution\n\n"
             if len(resultdict['conjure_solutions']) == 1:
                 output_md += "```json\n"
                 output_md += str(resultdict['conjure_solutions'][0]) + "\n"
@@ -84,16 +84,16 @@ class ConjureMagics(Magics):
                 output_md += "```\n\n"
         else:
             if len(resultdict['conjure_solutions']) == 1:
-                output_md += "Done. Found 1 solution.\n"
-                output_md += "Variables have been assigned their value in the solution\n"
-                output_md += "The solution is also stored in Python variable: `conjure_solutions`\n"
+                output_md += "Done. Found 1 solution.\n\n"
+                output_md += "Variables have been assigned their value in the solution\n\n"
+                output_md += "The solution is also stored in Python variable: `conjure_solutions`\n\n"
             else:
                 output_md += "Done. Found %d solutions.\n" % len(resultdict["conjure_solutions"])
-                output_md += "Solutions are stored in Python variable: `conjure_solutions`\n"
+                output_md += "Solutions are stored in Python variable: `conjure_solutions`\n\n"
 
         # if self.print_info == 'Yes':
         output_md += "| Statistic | Value |\n"
-        output_md += "--------------------\n"
+        output_md += "| :- | -: |\n"
         for k,v in infodict.items():
             output_md += "| %s | %s |\n" % (k.strip(), v.strip())
 
