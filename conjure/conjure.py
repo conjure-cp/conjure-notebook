@@ -28,7 +28,7 @@ class Conjure:
         _, error = shell_output.communicate()
         if error:
             raise Exception(error.decode('utf-8'))
-        return conjurehelper.read_solution_json_file()
+        return conjurehelper.read_solution_json_file(), conjurehelper.read_info_json_file()
 
     def get_representations(self, code: str):
         conjurehelper = ConjureHelper()
