@@ -17,6 +17,7 @@ class ConjureMagics(Magics):
     conjure_representations = {}
     # print output of conjure execution
     print_output = 'Yes'
+    print_info = 'Yes'
     # supported solvers
     conjure_solvers = ['minion', 'gecode', 'chuffed', 'glucose', 'glucose-syrup',
                        'lingeling', 'cadical', 'kissat', 'minisat', 'bc_minisat_all', 'nbc_minisat_all',
@@ -55,7 +56,7 @@ class ConjureMagics(Magics):
         try:
             if code not in self.conjure_models:  # we won't add code to models if the code is already there
                 self.conjure_models.append(code)
-            resultdict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
+            resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
 
         except Exception as err:
             self.conjure_models.pop()
@@ -85,6 +86,12 @@ class ConjureMagics(Magics):
             elif len(resultdict['conjure_solutions'] > 1):
                 print("Solutions are stored in Python variable: conjure_solutions")
 
+        if self.print_info == 'Yes':
+            print("| Statistic | Value |")
+            print("--------------------")
+            for k,v in infodict.items():
+                print("| %s | %s |" % (k,v))
+
     @line_magic
     def conjure_settings(self, line):
         conjure = Conjure()
@@ -92,6 +99,14 @@ class ConjureMagics(Magics):
             options=['Yes', 'No'],
             value=self.print_output,
             description='Print conjure output',
+            style={'description_width': 'initial'},
+            layout=widgets.Layout(width='80%')
+        )
+
+        conjure_output_rbtns = widgets.RadioButtons(
+            options=['Yes', 'No'],
+            value=self.print_info,
+            description='Print info',
             style={'description_width': 'initial'},
             layout=widgets.Layout(width='80%')
         )
