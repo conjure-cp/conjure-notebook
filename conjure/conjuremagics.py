@@ -86,11 +86,11 @@ class ConjureMagics(Magics):
             elif len(resultdict['conjure_solutions'] > 1):
                 print("Solutions are stored in Python variable: conjure_solutions")
 
-        if self.print_info == 'Yes':
-            print("| Statistic | Value |")
-            print("--------------------")
-            for k,v in infodict.items():
-                print("| %s | %s |" % (k,v))
+        # if self.print_info == 'Yes':
+        print("| Statistic | Value |")
+        print("--------------------")
+        for k,v in infodict.items():
+            print("| %s | %s |" % (k,v))
 
     @line_magic
     def conjure_settings(self, line):
