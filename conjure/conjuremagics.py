@@ -77,11 +77,11 @@ class ConjureMagics(Magics):
             if len(resultdict['conjure_solutions']) == 1:
                 output_md += "```json\n"
                 output_md += str(resultdict['conjure_solutions'][0]) + "\n"
-                output_md += "```"
+                output_md += "```\n\n"
             else:
                 output_md += "```json\n"
                 output_md += str(resultdict) + "\n"
-                output_md += "```"
+                output_md += "```\n\n"
         else:
             output_md += "Done. Found %d solution(s).\n" % len(resultdict["conjure_solutions"])
             if len(resultdict['conjure_solutions']) == 1:
