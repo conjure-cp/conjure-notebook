@@ -83,11 +83,12 @@ class ConjureMagics(Magics):
                 output_md += str(resultdict) + "\n"
                 output_md += "```\n\n"
         else:
-            output_md += "Done. Found %d solution(s).\n" % len(resultdict["conjure_solutions"])
             if len(resultdict['conjure_solutions']) == 1:
+                output_md += "Done. Found 1 solution.\n"
                 output_md += "Variables have been assigned their value in the solution\n"
                 output_md += "The solution is also stored in Python variable: `conjure_solutions`\n"
-            elif len(resultdict['conjure_solutions'] > 1):
+            else:
+                output_md += "Done. Found %d solutions.\n" % len(resultdict["conjure_solutions"])
                 output_md += "Solutions are stored in Python variable: `conjure_solutions`\n"
 
         # if self.print_info == 'Yes':
