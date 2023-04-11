@@ -73,9 +73,15 @@ class ConjureMagics(Magics):
             if len(resultdict['conjure_solutions']) == 0:
                 display(Markdown("lNo solution"))
             if len(resultdict['conjure_solutions']) == 1:
-                display(Markdown(json.dumps(resultdict['conjure_solutions'][0], indent=2)))
+                output_md = "```json\n"
+                output_md += json.dumps(resultdict['conjure_solutions'][0], indent=2)
+                output_md += "```"
+                display(Markdown(output_md))
             else:
-                display(Markdown(json.dumps(resultdict, indent=2)))
+                output_md = "```json\n"
+                output_md += json.dumps(resultdict, indent=2)
+                output_md += "```"
+                display(Markdown(output_md))
         else:
             if len(resultdict['conjure_solutions']) == 1:
                 display(Markdown("Done. Found 1 solution."))
