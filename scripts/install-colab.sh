@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -o errexit
+set -o nounset
+
 CONJURE_VERSION=v2.4.0
 NOTEBOOK_VERSION=main
 
