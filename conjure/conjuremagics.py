@@ -71,11 +71,11 @@ class ConjureMagics(Magics):
 
         if self.print_output == 'Yes':
             if len(resultdict['conjure_solutions']) == 0:
-                return "No solution"
+                print("No solution")
             if len(resultdict['conjure_solutions']) == 1:
-                return resultdict['conjure_solutions'][0]
+                print(resultdict['conjure_solutions'][0])
             else:
-                return resultdict
+                print(resultdict)
         else:
             print("Done. Found %d solution(s)." %
                   len(resultdict["conjure_solutions"]))
