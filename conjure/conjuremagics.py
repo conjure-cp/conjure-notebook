@@ -17,7 +17,7 @@ class ConjureMagics(Magics):
     conjure_representations = {}
     # print output of conjure execution
     print_output = 'Yes'
-    print_info = 'Yes'
+    print_info = 'No'
     # supported solvers
     conjure_solvers = ['minion', 'gecode', 'chuffed', 'glucose', 'glucose-syrup',
                        'lingeling', 'cadical', 'kissat', 'minisat', 'bc_minisat_all', 'nbc_minisat_all',
