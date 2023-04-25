@@ -3,8 +3,8 @@
 set -o errexit
 set -o nounset
 
-CONJURE_VERSION=v2.4.0
-NOTEBOOK_VERSION=main
+CONJURE_VERSION=v2.4.1
+NOTEBOOK_VERSION=v0.0.6
 
 echo "Installing Conjure version ${CONJURE_VERSION} and Conjure Notebook version ${NOTEBOOK_VERSION}..."
 
