@@ -22,6 +22,8 @@
     %%conjure - Runs the provided conjure model along with previously ran models.
     %conjure_clear - clears the previously ran conjure models.
     %conjure_print - prints the previously ran conjure models.
+    %conjure_print_pretty - pretty print the previously ran conjure models.
+    %conjure_print_ast - print the parsed AST of the previously ran conjure models.
     %conjure_rollback - removes the last appended conjure model.
     %conjure_settings - shows conjure settings menu.
     More information about Conjure: https://conjure.readthedocs.io
