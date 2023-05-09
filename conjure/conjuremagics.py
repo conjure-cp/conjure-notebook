@@ -229,6 +229,21 @@ class ConjureMagics(Magics):
         print('\n'.join(self.conjure_models))
 
     @line_magic
+    def conjure_print_pretty(self, line):
+        conjure = Conjure()
+        print(conjure.pretty_print('\n'.join(self.conjure_models), "plain"))
+
+    @line_magic
+    def conjure_print_ast(self, line):
+        conjure = Conjure()
+        jsonout = conjure.pretty_print('\n'.join(self.conjure_models), "astjson")
+        output_md = "```json\n"
+        # Round trip to pretty print the JSON
+        output_md += json.dumps(json.loads(jsonout))
+        output_md += "\n```"
+        display(Markdown(output_md))
+
+    @line_magic
     def conjure_rollback(self, line):
         if len(self.conjure_models) == 0:
             print("Exception: conjure model is empty.", file=sys.stderr)
@@ -242,6 +257,8 @@ class ConjureMagics(Magics):
         help_str += "%%conjure - Runs the provided conjure model along with previously ran models.\n"
         help_str += "%conjure_clear - clears the previously ran conjure models.\n"
         help_str += "%conjure_print - prints the previously ran conjure models.\n"
+        help_str += "%conjure_print_pretty - pretty print the previously ran conjure models.\n"
+        help_str += "%conjure_print_ast - print the parsed AST of the previously ran conjure models.\n"
         help_str += "%conjure_rollback - removes the last appended conjure model.\n"
         help_str += "%conjure_settings - shows conjure settings menu.\n"
         help_str += "More information about Conjure: https://conjure.readthedocs.io"
