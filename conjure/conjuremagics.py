@@ -1,5 +1,6 @@
 import sys
 import asyncio
+from IPython import get_ipython
 from IPython.core.magic import (
     Magics, magics_class, cell_magic, line_magic)
 from IPython.display import display, Markdown, JSON
@@ -9,6 +10,11 @@ import json
 
 @magics_class
 class ConjureMagics(Magics):
+    def __init__(self, shell=..., **kwargs) -> None:
+        super().__init__(shell, **kwargs)
+        # register conjure_plus method as conjure+
+        get_ipython().register_magic_function(self.conjure_plus, magic_kind='cell', magic_name='conjure+')
+
     # defines number of solutions conjure returns
     number_of_solutions = '1'
     # stores conjure models which needs to be executed
@@ -29,7 +35,7 @@ class ConjureMagics(Magics):
     choose_representations_value = choose_representations_options[0]
 
     @cell_magic
-    def conjure(self, args, code):
+    def conjure(self, args, code, append_code = False):
         conjure = Conjure()
 
         # adding solver and number of solutions
@@ -54,7 +60,7 @@ class ConjureMagics(Magics):
 
         # code execution
         try:
-            if code not in self.conjure_models:  # we won't add code to models if the code is already there
+            if append_code and (code not in self.conjure_models):  # we add code to models if the code isn't already there and if append is True
                 self.conjure_models.append(code)
             resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
 
@@ -97,6 +103,9 @@ class ConjureMagics(Magics):
             for k,v in infodict.items():
                 output_md += "| %s | %s |\n" % (k.strip(), v.strip())
             display(Markdown(output_md))
+
+    def conjure_plus(self, args, code):
+        return self.conjure(args, code, append_code=True)
 
     @line_magic
     def conjure_settings(self, line):
