@@ -62,7 +62,10 @@ class ConjureMagics(Magics):
         try:
             if append_code and (code not in self.conjure_models):  # we add code to models if the code isn't already there and if append is True
                 self.conjure_models.append(code)
-            resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
+            if append_code:
+                resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
+            else:
+                resultdict, infodict = conjure.solve(args, code, dict(self.shell.user_ns))
 
         except Exception as err:
             self.conjure_models.pop()
