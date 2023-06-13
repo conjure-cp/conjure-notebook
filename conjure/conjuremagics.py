@@ -60,13 +60,13 @@ class ConjureMagics(Magics):
 
         # code execution
         try:
-            if append_code and (code not in self.conjure_models):  # we add code to models if the code isn't already there and if append is True
+            if (code not in self.conjure_models):  # we add code to models if the code isn't already there
                 self.conjure_models.append(code)
-            if append_code:
-                resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
-            else:
-                resultdict, infodict = conjure.solve(args, code, dict(self.shell.user_ns))
+            if not append_code:
+                self.conjure_models = [code]
+                self.conjure_representations = {}
 
+            resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
         except Exception as err:
             self.conjure_models.pop()
             print("{}: {}".format(type(err).__name__, err), file=sys.stderr)
@@ -229,12 +229,6 @@ class ConjureMagics(Magics):
         settings_tab.set_title(1, "Solver settings")
         settings_tab.set_title(2, "Representations")
         display(settings_tab)
-
-    @line_magic
-    def conjure_clear(self, line):
-        self.conjure_models = []
-        self.conjure_representations = {}
-        print('Conjure model cleared')
 
     @line_magic
     def conjure_print(self, line):
