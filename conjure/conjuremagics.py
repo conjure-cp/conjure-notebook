@@ -96,7 +96,7 @@ class ConjureMagics(Magics):
             output_md = "| Statistic | Value |\n"
             output_md += "|:-|-:|\n"
             for k,v in infodict.items():
-                output_md += "| %s | %s |\n" % (k.strip(), v.strip())
+                output_md += "| %s | %s |\n" % (k, v)
             display(Markdown(output_md))
 
     @line_magic
