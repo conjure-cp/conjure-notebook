@@ -62,7 +62,7 @@ class ConjureHelper:
                         obj = {}
                         for line in f:
                             [k,v] = line.split(':')
-                            obj[k] = v
+                            obj[k.strip()] = v.strip()
                         return obj
         except Exception as e:
             raise Exception('Error while reading the info file. ' + str(e))
