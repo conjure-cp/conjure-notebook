@@ -14,19 +14,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install jq
+        uses: dcarbone/install-jq-action@v1.0.1
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python }}
+          python-version: '3.11.4'
 
       - name: Install packages
         run: pip install jupyterlab
 
       - name: Get conjure
         run: |
-            wget --quiet --no-check-certificate -c https://github.com/conjure-cp/conjure/releases/download/v2.4.0/conjure-v2.4.0-linux-with-solvers.zip
-            unzip -q -o conjure-v2.4.0-linux-with-solvers.zip
-            cp -r conjure-v2.4.0-linux-with-solvers/* /usr/local/bin
+            wget --quiet --no-check-certificate -c https://github.com/conjure-cp/conjure/releases/download/v2.5.0/conjure-v2.5.0-linux-with-solvers.zip
+            unzip -q -o conjure-v2.5.0-linux-with-solvers.zip
+            cp -r conjure-v2.5.0-linux-with-solvers/* /usr/local/bin
 
       - name: Install conjure-notebook
         run: pip install .

@@ -1,5 +1,6 @@
 import sys
 import asyncio
+from IPython import get_ipython
 from IPython.core.magic import (
     Magics, magics_class, cell_magic, line_magic)
 from IPython.display import display, Markdown, JSON
@@ -9,6 +10,11 @@ import json
 
 @magics_class
 class ConjureMagics(Magics):
+
+    def __init__(self, shell=..., **kwargs) -> None:
+        super().__init__(shell, **kwargs)
+        get_ipython().register_magic_function(self.conjure_plus, magic_kind='cell', magic_name='conjure+')
+
     # defines number of solutions conjure returns
     number_of_solutions = '1'
     # stores conjure models which needs to be executed
@@ -28,8 +34,9 @@ class ConjureMagics(Magics):
         'Use Conjure\'s default heuristic', 'Manual selection (using the Representations tab)']
     choose_representations_value = choose_representations_options[0]
 
+
     @cell_magic
-    def conjure(self, args, code):
+    def conjure(self, args, code, append_code = False):
         conjure = Conjure()
 
         # adding solver and number of solutions
@@ -54,8 +61,14 @@ class ConjureMagics(Magics):
 
         # code execution
         try:
-            if code not in self.conjure_models:  # we won't add code to models if the code is already there
-                self.conjure_models.append(code)
+            if append_code:
+                if code not in self.conjure_models:  # we won't add code to models if the code is already there
+                    self.conjure_models.append(code)
+                else:
+                    self.conjure_models = [code]
+            else:
+                self.conjure_models = [code]
+                self.conjure_representations = {}
             resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
             self.shell.user_ns["conjure_info"] = infodict
 
@@ -98,6 +111,9 @@ class ConjureMagics(Magics):
             for k,v in infodict.items():
                 output_md += "| %s | %s |\n" % (k, v)
             display(Markdown(output_md))
+
+    def conjure_plus(self, args, code):
+        return self.conjure(args, code, append_code=True)
 
     @line_magic
     def conjure_settings(self, line):
@@ -220,12 +236,6 @@ class ConjureMagics(Magics):
         display(settings_tab)
 
     @line_magic
-    def conjure_clear(self, line):
-        self.conjure_models = []
-        self.conjure_representations = {}
-        print('Conjure model cleared')
-
-    @line_magic
     def conjure_print(self, line):
         print('\n'.join(self.conjure_models))
 
@@ -255,8 +265,8 @@ class ConjureMagics(Magics):
     @line_magic
     def conjure_help(self, line):
         help_str = "Conjure jupyter extension magic commands: \n"
-        help_str += "%%conjure - Runs the provided conjure model along with previously ran models.\n"
-        help_str += "%conjure_clear - clears the previously ran conjure models.\n"
+        help_str += "%%conjure - Runs the provided conjure model.\n"
+        help_str += "%%conjure+ - Runs the provided conjure model along with previously ran models.\n"
         help_str += "%conjure_print - prints the previously ran conjure models.\n"
         help_str += "%conjure_print_pretty - pretty print the previously ran conjure models.\n"
         help_str += "%conjure_print_ast - print the parsed AST of the previously ran conjure models.\n"

@@ -1,2 +1,5 @@
 __pycache__
-conjure.egg-info
+*.egg-info
+build
+test/conjure-output
+test/conjure-temp-files
