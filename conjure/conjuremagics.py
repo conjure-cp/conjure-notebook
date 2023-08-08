@@ -11,7 +11,7 @@ import json
 @magics_class
 class ConjureMagics(Magics):
 
-    def __init(self, shell=..., **kwargs) -> None:
+    def __init__(self, shell=..., **kwargs) -> None:
         super().__init__(shell, **kwargs)
         get_ipython().register_magic_function(self.conjure_plus, magic_kind='cell', magic_name='conjure+')
 
@@ -33,6 +33,7 @@ class ConjureMagics(Magics):
     choose_representations_options = [
         'Use Conjure\'s default heuristic', 'Manual selection (using the Representations tab)']
     choose_representations_value = choose_representations_options[0]
+
 
     @cell_magic
     def conjure(self, args, code, append_code = False):
@@ -110,6 +111,9 @@ class ConjureMagics(Magics):
             for k,v in infodict.items():
                 output_md += "| %s | %s |\n" % (k, v)
             display(Markdown(output_md))
+
+    def conjure_plus(self, args, code):
+        return self.conjure(args, code, append_code=True)
 
     @line_magic
     def conjure_settings(self, line):
@@ -261,8 +265,8 @@ class ConjureMagics(Magics):
     @line_magic
     def conjure_help(self, line):
         help_str = "Conjure jupyter extension magic commands: \n"
-        help_str += "%%conjure - Runs the provided conjure model along with previously ran models.\n"
-        help_str += "%conjure_clear - clears the previously ran conjure models.\n"
+        help_str += "%%conjure - Runs the provided conjure model.\n"
+        help_str += "%%conjure+ - Runs the provided conjure model along with previously ran models.\n"
         help_str += "%conjure_print - prints the previously ran conjure models.\n"
         help_str += "%conjure_print_pretty - pretty print the previously ran conjure models.\n"
         help_str += "%conjure_print_ast - print the parsed AST of the previously ran conjure models.\n"
