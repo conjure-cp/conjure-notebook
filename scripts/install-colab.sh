@@ -3,7 +3,7 @@
 set -o errexit
 set -o nounset
 
-CONJURE_VERSION=v2.4.1
+CONJURE_VERSION=v2.5.0
 NOTEBOOK_VERSION=main
 
 echo "Installing Conjure version ${CONJURE_VERSION} and Conjure Notebook version ${NOTEBOOK_VERSION}..."
@@ -13,7 +13,7 @@ rm -rf sample_data
 
 conjure_installed=$((conjure --version 2> /dev/null) | head -n2 | tail -n1)
 
-if [[ $conjure_installed == "Release version 2.4.1" ]]; then
+if [[ $conjure_installed == "Release version 2.5.0" ]]; then
     echo "Conjure is already installed."
 else
     echo "Downloading..."
