@@ -4,7 +4,7 @@
 2. Run the following command (2 lines) in a Code cell to install this extension.
 
         !source <(curl -s https://raw.githubusercontent.com/conjure-cp/conjure-notebook/v0.0.7/scripts/install-colab.sh)
-        %load_ext conjure
+        %reload_ext conjure
 
 3. In the following Code cells Conjure commands will be available.
 
