@@ -24,10 +24,10 @@ else
 
     # we don't need to keep these around any more
     rm -rf conjure-${CONJURE_VERSION}-linux-with-solvers conjure-${CONJURE_VERSION}-linux-with-solvers.zip
-    echo "Conjure is installed."
-fi
 
-# installing the conjure extension
-pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git@${NOTEBOOK_VERSION} > /dev/null
+    # installing the conjure extension
+    pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git@${NOTEBOOK_VERSION} > /dev/null
+
+fi
 
 conjure --version
