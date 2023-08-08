@@ -16,7 +16,7 @@ conjure_installed=$((conjure --version 2> /dev/null) | head -n2 | tail -n1)
 if [[ $conjure_installed == "Release version 2.4.1" ]]; then
     echo "Conjure is already installed."
 else
-    echo "Downloading."
+    echo "Downloading..."
     # download the release from Github
     wget --quiet --no-check-certificate -c https://github.com/conjure-cp/conjure/releases/download/${CONJURE_VERSION}/conjure-${CONJURE_VERSION}-linux-with-solvers.zip
     unzip -q -o conjure-${CONJURE_VERSION}-linux-with-solvers.zip
@@ -24,6 +24,7 @@ else
 
     # we don't need to keep these around any more
     rm -rf conjure-${CONJURE_VERSION}-linux-with-solvers conjure-${CONJURE_VERSION}-linux-with-solvers.zip
+    echo "Conjure is installed."
 fi
 
 # installing the conjure extension
