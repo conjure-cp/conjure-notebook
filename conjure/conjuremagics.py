@@ -1,5 +1,6 @@
 import sys
 import asyncio
+from IPython import get_ipython
 from IPython.core.magic import (
     Magics, magics_class, cell_magic, line_magic)
 from IPython.display import display, Markdown, JSON
@@ -9,6 +10,11 @@ import json
 
 @magics_class
 class ConjureMagics(Magics):
+
+    def __init(self, shell=..., **kwargs) -> None:
+        super().__init__(shell, **kwargs)
+        get_ipython().register_magic_function(self.conjure_plus, magic_kind='cell', magic_name='conjure+')
+
     # defines number of solutions conjure returns
     number_of_solutions = '1'
     # stores conjure models which needs to be executed
@@ -29,7 +35,7 @@ class ConjureMagics(Magics):
     choose_representations_value = choose_representations_options[0]
 
     @cell_magic
-    def conjure(self, args, code):
+    def conjure(self, args, code, append_code = False):
         conjure = Conjure()
 
         # adding solver and number of solutions
@@ -54,8 +60,14 @@ class ConjureMagics(Magics):
 
         # code execution
         try:
-            if code not in self.conjure_models:  # we won't add code to models if the code is already there
-                self.conjure_models.append(code)
+            if append_code:
+                if code not in self.conjure_models:  # we won't add code to models if the code is already there
+                    self.conjure_models.append(code)
+                else:
+                    self.conjure_models = [code]
+            else:
+                self.conjure_models = [code]
+                self.conjure_representations = {}
             resultdict, infodict = conjure.solve(args, '\n'.join(self.conjure_models), dict(self.shell.user_ns))
             self.shell.user_ns["conjure_info"] = infodict
 
@@ -218,12 +230,6 @@ class ConjureMagics(Magics):
         settings_tab.set_title(1, "Solver settings")
         settings_tab.set_title(2, "Representations")
         display(settings_tab)
-
-    @line_magic
-    def conjure_clear(self, line):
-        self.conjure_models = []
-        self.conjure_representations = {}
-        print('Conjure model cleared')
 
     @line_magic
     def conjure_print(self, line):
