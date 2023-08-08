@@ -24,10 +24,15 @@ else
 
     # we don't need to keep these around any more
     rm -rf conjure-${CONJURE_VERSION}-linux-with-solvers conjure-${CONJURE_VERSION}-linux-with-solvers.zip
+fi
 
+conjure_notebook_installed=$(pip freeze | grep Conjure-Notebook | wc -l)
+
+if [[ $conjure_notebook_installed == "1" ]]; then
+    echo "Conjure notebook is already installed."
+else
     # installing the conjure extension
     pip --quiet install git+https://github.com/conjure-cp/conjure-notebook.git@${NOTEBOOK_VERSION} > /dev/null
-
 fi
 
 conjure --version
