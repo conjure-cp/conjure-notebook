@@ -28,9 +28,9 @@ jobs:
 
       - name: Get conjure
         run: |
-            wget --quiet --no-check-certificate -c https://github.com/conjure-cp/conjure/releases/download/v2.5.0/conjure-v2.5.0-linux-with-solvers.zip
-            unzip -q -o conjure-v2.5.0-linux-with-solvers.zip
-            cp -r conjure-v2.5.0-linux-with-solvers/* /usr/local/bin
+            wget --quiet --no-check-certificate -c https://github.com/conjure-cp/conjure/releases/download/v2.5.1/conjure-v2.5.1-linux-with-solvers.zip
+            unzip -q -o conjure-v2.5.1-linux-with-solvers.zip
+            cp -r conjure-v2.5.1-linux-with-solvers/* /usr/local/bin
 
       - name: Install conjure-notebook
         run: pip install .
