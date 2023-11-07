@@ -13,7 +13,7 @@ rm -rf sample_data
 
 conjure_installed=$((conjure --version 2> /dev/null) | head -n2 | tail -n1)
 
-if [[ $conjure_installed == "Release version 2.5.0" ]]; then
+if [[ $conjure_installed == "Release version 2.5.1" ]]; then
     echo "Conjure is already installed."
 else
     echo "Downloading..."
