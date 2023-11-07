@@ -64,8 +64,6 @@ class ConjureMagics(Magics):
             if append_code:
                 if code not in self.conjure_models:  # we won't add code to models if the code is already there
                     self.conjure_models.append(code)
-                else:
-                    self.conjure_models = [code]
             else:
                 self.conjure_models = [code]
                 self.conjure_representations = {}
