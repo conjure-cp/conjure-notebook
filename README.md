@@ -20,9 +20,9 @@ See demo videos made by @ogabek96 on Youtube: https://www.youtube.com/channel/UC
 
 You do not have to use Google Colab to use Conjure Notebook.
 
-In yout favourite Jupyter environment, run the following to install the Conjure Notebook extension. You need to make sure Conjure and its backend solvers are available in your path for this to work. The latest [Conjure release](https://www.github.com/conjure-cp/conjure/releases/latest) can be found on Github, just download the `-with-solvers` archieve for your operating system and place its contents in your PATH.
+In yout favourite Jupyter environment, run the following to install the Conjure Notebook extension. **You need to make sure Conjure and its backend solvers are available in your path for this to work.** The latest [Conjure release](https://www.github.com/conjure-cp/conjure/releases/latest) can be found on Github, just download the `-with-solvers` archieve for your operating system and place its contents in your PATH.
 
 ```
 %pip install --quiet git+https://github.com/conjure-cp/conjure-notebook.git@v0.0.9
-%load_ext conjure
+%reload_ext conjure
 ```
