@@ -3,8 +3,10 @@
 1. Create a new notebook on Google Colab
 2. Run the following command (2 lines) in a Code cell to install this extension.
 
-        !source <(curl -s https://raw.githubusercontent.com/conjure-cp/conjure-notebook/v0.0.9/scripts/install-colab.sh)
-        %reload_ext conjure
+```
+!source <(curl -s https://raw.githubusercontent.com/conjure-cp/conjure-notebook/v0.0.9/scripts/install-colab.sh)
+%reload_ext conjure
+```
 
 3. In the following Code cells Conjure commands will be available.
 
@@ -16,8 +18,11 @@ See demo videos made by @ogabek96 on Youtube: https://www.youtube.com/channel/UC
 
 # Quick start on Jupyter Notebooks
 
-You do not have to use Google Colab to use Conjure Notebook. Currently we do not provide a script to install it on a pure Jupyter environment. Please have a look at the [scripts/install-colab.sh](https://github.com/conjure-cp/conjure-notebook/blob/main/scripts/install-colab.sh) to see the steps.
+You do not have to use Google Colab to use Conjure Notebook.
 
-## Making a release
+In yout favourite Jupyter environment, run the following to install the Conjure Notebook extension. You need to make sure Conjure and its backend solvers are available in your path for this to work. The latest [Conjure release](https://www.github.com/conjure-cp/conjure/releases/latest) can be found on Github, just download the `-with-solvers` archieve for your operating system and place its contents in your PATH.
 
-Run `scripts/make-release.sh old-version new-version` from the root of this repository.
+```
+%pip install --quiet git+https://github.com/conjure-cp/conjure-notebook.git@v0.0.9
+%load_ext conjure
+```
