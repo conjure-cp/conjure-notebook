@@ -8,6 +8,7 @@ import ipywidgets as widgets
 from .conjure import Conjure
 import json
 
+
 @magics_class
 class ConjureMagics(Magics):
 
@@ -34,9 +35,8 @@ class ConjureMagics(Magics):
         'Use Conjure\'s default heuristic', 'Manual selection (using the Representations tab)']
     choose_representations_value = choose_representations_options[0]
 
-
     @cell_magic
-    def conjure(self, args, code, append_code = False):
+    def conjure(self, args, code, append_code=False):
         conjure = Conjure()
 
         # adding solver and number of solutions
@@ -81,45 +81,35 @@ class ConjureMagics(Magics):
             for key, value in resultdict['conjure_solutions'][0].items():
                 self.shell.user_ns[key] = value
 
-        if len(resultdict['conjure_solutions']) == 1:
+        if len(resultdict['conjure_solutions']) == 0:
+            display(Markdown("No solutions found."))
+
+        elif len(resultdict['conjure_solutions']) == 1:
             try:
                 self.shell.user_ns["conjure_display_solution"]()
             except Exception as e:
-                # not defined...
-                pass
-        if len(resultdict['conjure_solutions']) > 1:
-            try:
-                self.shell.user_ns["conjure_display_solutions"](resultdict['conjure_solutions'])
-            except Exception as e:
-                # not defined...
-                pass
-
-        if self.print_output == 'Yes':
-            if len(resultdict['conjure_solutions']) == 0:
-                display(Markdown("No solution"))
-            if len(resultdict['conjure_solutions']) == 1:
                 output_md = "```json\n"
                 output_md += json.dumps(resultdict['conjure_solutions'][0])
                 output_md += "\n```"
                 display(Markdown(output_md))
-            else:
+
+        else:  # multiple solutions
+            try:
+                for solnum, sol in enumerate(resultdict['conjure_solutions']):
+                    for key, value in resultdict['conjure_solutions'][0].items():
+                        self.shell.user_ns[key] = value
+                        display(Markdown(f'Solution {solnum+1}'))
+                        self.shell.user_ns["conjure_display_solution"]()
+            except Exception as e:
                 output_md = "```json\n"
-                output_md += json.dumps(resultdict)
+                output_md += json.dumps(resultdict['conjure_solutions'])
                 output_md += "\n```"
                 display(Markdown(output_md))
-        else:
-            if len(resultdict['conjure_solutions']) == 1:
-                display(Markdown("Done. Found 1 solution."))
-                display(Markdown("Variables have been assigned their value in the solution"))
-                display(Markdown("The solution is also stored in Python variable: `conjure_solutions`"))
-            else:
-                display(Markdown("Done. Found %d solutions.\n" % len(resultdict["conjure_solutions"])))
-                display(Markdown("Solutions are stored in Python variable: `conjure_solutions`"))
 
         if self.print_info == 'Yes':
             output_md = "| Statistic | Value |\n"
             output_md += "|:-|-:|\n"
-            for k,v in infodict.items():
+            for k, v in infodict.items():
                 output_md += "| %s | %s |\n" % (k, v)
             display(Markdown(output_md))
 
