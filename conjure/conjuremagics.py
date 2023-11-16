@@ -87,6 +87,7 @@ class ConjureMagics(Magics):
                 # display(conjure_display_solution(resultdict['conjure_solutions'][0]))
             except Exception as e:
                 display(Markdown(str(e)))
+                display(Markdown(str(self.shell.user_ns)))
 
         if self.print_output == 'Yes':
             if len(resultdict['conjure_solutions']) == 0:
