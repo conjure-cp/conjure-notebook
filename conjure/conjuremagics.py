@@ -8,6 +8,7 @@ import ipywidgets as widgets
 from .conjure import Conjure
 import json
 
+
 @magics_class
 class ConjureMagics(Magics):
 
@@ -34,9 +35,8 @@ class ConjureMagics(Magics):
         'Use Conjure\'s default heuristic', 'Manual selection (using the Representations tab)']
     choose_representations_value = choose_representations_options[0]
 
-
     @cell_magic
-    def conjure(self, args, code, append_code = False):
+    def conjure(self, args, code, append_code=False):
         conjure = Conjure()
 
         # adding solver and number of solutions
@@ -81,32 +81,35 @@ class ConjureMagics(Magics):
             for key, value in resultdict['conjure_solutions'][0].items():
                 self.shell.user_ns[key] = value
 
-        if self.print_output == 'Yes':
-            if len(resultdict['conjure_solutions']) == 0:
-                display(Markdown("No solution"))
-            if len(resultdict['conjure_solutions']) == 1:
+        if len(resultdict['conjure_solutions']) == 0:
+            display(Markdown("No solutions found."))
+
+        elif len(resultdict['conjure_solutions']) == 1:
+            try:
+                self.shell.user_ns["conjure_display_solution"]()
+            except Exception as e:
                 output_md = "```json\n"
                 output_md += json.dumps(resultdict['conjure_solutions'][0])
                 output_md += "\n```"
                 display(Markdown(output_md))
-            else:
+
+        else:  # multiple solutions
+            try:
+                for solnum, sol in enumerate(resultdict['conjure_solutions']):
+                    for key, value in resultdict['conjure_solutions'][0].items():
+                        self.shell.user_ns[key] = value
+                    display(Markdown(f'## Solution {solnum+1}'))
+                    self.shell.user_ns["conjure_display_solution"]()
+            except Exception as e:
                 output_md = "```json\n"
-                output_md += json.dumps(resultdict)
+                output_md += json.dumps(resultdict['conjure_solutions'])
                 output_md += "\n```"
                 display(Markdown(output_md))
-        else:
-            if len(resultdict['conjure_solutions']) == 1:
-                display(Markdown("Done. Found 1 solution."))
-                display(Markdown("Variables have been assigned their value in the solution"))
-                display(Markdown("The solution is also stored in Python variable: `conjure_solutions`"))
-            else:
-                display(Markdown("Done. Found %d solutions.\n" % len(resultdict["conjure_solutions"])))
-                display(Markdown("Solutions are stored in Python variable: `conjure_solutions`"))
 
         if self.print_info == 'Yes':
             output_md = "| Statistic | Value |\n"
             output_md += "|:-|-:|\n"
-            for k,v in infodict.items():
+            for k, v in infodict.items():
                 output_md += "| %s | %s |\n" % (k, v)
             display(Markdown(output_md))
 
@@ -258,17 +261,37 @@ class ConjureMagics(Magics):
             print("Exception: conjure model is empty.", file=sys.stderr)
             return
         self.conjure_models.pop()
-        print('Last added model is removed')
+        print('Last added model fragment is removed.')
 
     @line_magic
     def conjure_help(self, line):
-        help_str = "Conjure jupyter extension magic commands: \n"
-        help_str += "%%conjure - Runs the provided conjure model.\n"
-        help_str += "%%conjure+ - Runs the provided conjure model along with previously ran models.\n"
-        help_str += "%conjure_print - prints the previously ran conjure models.\n"
-        help_str += "%conjure_print_pretty - pretty print the previously ran conjure models.\n"
-        help_str += "%conjure_print_ast - print the parsed AST of the previously ran conjure models.\n"
-        help_str += "%conjure_rollback - removes the last appended conjure model.\n"
-        help_str += "%conjure_settings - shows conjure settings menu.\n"
-        help_str += "More information about Conjure: https://conjure.readthedocs.io"
-        print(help_str)
+        display(Markdown("""
+        Conjure Notebook comes with a number of magic commands (i.e. commands that start with a % sign). The extension also defines a few special variable/function names to implement specialised functionality.
+
+        ## Magic commands
+        - `%%conjure`: Runs the provided model. Parameter values are converted from Python to Essence and solution values are converted from Essence to Python automatically. All valid [command line arguments](https://conjure.readthedocs.io/en/latest/cli.html) to `conjure solve` can be passed to this magic command in the first line.
+
+        - `%%conjure+`: Append mode. Same as `%%conjure`, except appends the newly provided model fragment to the last solved model before running.
+
+        - `%conjure_print`, `%conjure_print_pretty`, `%conjure_print_ast`: print the last solved model in various formats.
+
+        - `%conjure_rollback`: remove the last conjure model fragment that was added via `%%conjure+`
+
+        - `%conjure_settings`: 
+
+        ## Special variable/function names
+
+        - `conjure_solutions`: a Python array that contains the set of solutions returned by Conjure.
+
+        - `conjure_info`: a Python dictionary that contains some statistics about the solving process.
+
+        - `conjure_display_solution()`: a Python function that will be called per solution, if defined. If it's not defined, Conjure Notebook will display the entire solution as a JSON dump.
+           If you don't want solution printing, define it to do nothing (i.e. `def conjure_display_solution(): pass`).
+           Takes no arguments. When defining, you can refer to the decision variables by their names.
+
+        - `conjure_display_info()`: a Python function that will be called per solution, if defined. If it's not defined, Conjure Notebook will display all available information as a table.
+          If you don't want information printing, define it to do nothing (i.e. `def conjure_display_info(): pass`).
+          Takes no arguments. When defining, you can use the `conjure_info` dictionary.
+
+        More information about Conjure: https://conjure-cp.github.io"
+        """))

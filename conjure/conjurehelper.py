@@ -61,12 +61,12 @@ class ConjureHelper:
                     with open("conjure-output/" + p, "r") as f:
                         obj = {}
                         for line in f:
-                            [k,v] = line.split(':')
+                            [k, v] = line.split(':')
                             obj[k.strip()] = v.strip()
                         return obj
         except Exception as e:
             raise Exception('Error while reading the info file. ' + str(e))
-            
+
     def clean_tmp_files(self) -> None:
         # remove conjure-output-folder
         if os.path.isdir('./conjure-output'):

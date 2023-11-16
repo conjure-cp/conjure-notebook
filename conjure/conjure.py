@@ -20,22 +20,23 @@ class Conjure:
                     raise Exception("Variable {0} is not defined".format(p))
             temp_params_file = conjurehelper.create_params_file(params)
             shell_output = Popen(["conjure solve " + temp_essence_file + " " + temp_params_file +
-                                 " --output-format=json --solutions-in-one-file --solver=chuffed " + args, ], shell=True, stdout=PIPE, stderr=PIPE)
+                                 " --output-format=json --solutions-in-one-file --solver=chuffed " + args], shell=True, stdout=PIPE, stderr=PIPE)
         else:
             shell_output = Popen(["conjure solve " + temp_essence_file +
-                                 " --output-format=json --solutions-in-one-file --solver=chuffed " + args, ], shell=True, stdout=PIPE, stderr=PIPE)
+                                 " --output-format=json --solutions-in-one-file --solver=chuffed " + args], shell=True, stdout=PIPE, stderr=PIPE)
 
         _, error = shell_output.communicate()
         if error:
             raise Exception(error.decode('utf-8'))
         return conjurehelper.read_solution_json_file(), conjurehelper.read_info_json_file()
 
-    def pretty_print(self, code:str, type:str) -> str:
+    def pretty_print(self, code: str, type: str) -> str:
         conjurehelper = ConjureHelper()
         conjurehelper.clean_tmp_files()
 
         temp_essence_file = conjurehelper.create_temp_file("essence", code)
-        shell_output = Popen(["conjure pretty --output-format=" + type + " " + temp_essence_file], shell=True, stdout=PIPE, stderr=PIPE)
+        shell_output = Popen(["conjure pretty --output-format=" + type +
+                             " " + temp_essence_file], shell=True, stdout=PIPE, stderr=PIPE)
 
         stdout, error = shell_output.communicate()
 
