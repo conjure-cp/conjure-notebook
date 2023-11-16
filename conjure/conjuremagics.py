@@ -98,8 +98,8 @@ class ConjureMagics(Magics):
                 for solnum, sol in enumerate(resultdict['conjure_solutions']):
                     for key, value in resultdict['conjure_solutions'][0].items():
                         self.shell.user_ns[key] = value
-                        display(Markdown(f'Solution {solnum+1}'))
-                        self.shell.user_ns["conjure_display_solution"]()
+                    display(Markdown(f'## Solution {solnum+1}'))
+                    self.shell.user_ns["conjure_display_solution"]()
             except Exception as e:
                 output_md = "```json\n"
                 output_md += json.dumps(resultdict['conjure_solutions'])
