@@ -81,6 +81,17 @@ class ConjureMagics(Magics):
             for key, value in resultdict['conjure_solutions'][0].items():
                 self.shell.user_ns[key] = value
 
+        if len(resultdict['conjure_solutions']) == 1:
+            try:
+                conjure_display_solution(resultdict['conjure_solutions'][0])
+            except NameError:
+                pass
+        if len(resultdict['conjure_solutions']) > 1:
+            try:
+                conjure_display_solutions(resultdict['conjure_solutions'][0])
+            except NameError:
+                pass
+
         if self.print_output == 'Yes':
             if len(resultdict['conjure_solutions']) == 0:
                 display(Markdown("No solution"))
