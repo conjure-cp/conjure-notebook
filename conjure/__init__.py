@@ -11,5 +11,4 @@ def load_ipython_extension(ipython):
     display(Javascript(initHighlighter))
     if Conjure.check_conjure():  # check conjure is installed
         ipython.register_magics(ConjureMagics)
-        print('Conjure extension is loaded.')
-        print('For usage help run: %conjure_help')
+        print('Conjure extension is loaded - run: %conjure_help')
