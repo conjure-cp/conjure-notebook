@@ -83,14 +83,14 @@ class ConjureMagics(Magics):
 
         if len(resultdict['conjure_solutions']) == 1:
             try:
-                conjure_display_solution(resultdict['conjure_solutions'][0])
-            except NameError:
-                pass
+                display(conjure_display_solution(resultdict['conjure_solutions'][0]))
+            except Exception as e:
+                display(Markdown(str(e)))
         if len(resultdict['conjure_solutions']) > 1:
             try:
-                conjure_display_solutions(resultdict['conjure_solutions'][0])
-            except NameError:
-                pass
+                display(conjure_display_solutions(resultdict['conjure_solutions']))
+            except Exception as e:
+                display(Markdown(str(e)))
 
         if self.print_output == 'Yes':
             if len(resultdict['conjure_solutions']) == 0:
