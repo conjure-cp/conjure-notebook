@@ -145,11 +145,15 @@ Conjure Notebook comes with a number of magic commands (i.e. commands that start
 - `conjure_info`: a Python dictionary that contains some statistics about the solving process.
 
 - `conjure_display_solution()`: a Python function that will be called per solution, if defined. If it's not defined, Conjure Notebook will display the entire solution as a JSON dump.
+
     If you don't want solution printing, define it to do nothing (i.e. `def conjure_display_solution(): pass`).
+
     Takes no arguments. When defining, you can refer to the decision variables by their names.
 
 - `conjure_display_info()`: a Python function that will be called per solution, if defined. If it's not defined, Conjure Notebook will display all available information as a table.
+
     If you don't want information printing, define it to do nothing (i.e. `def conjure_display_info(): pass`).
+
     Takes no arguments. When defining, you can use the `conjure_info` dictionary.
 
 More information about Conjure: https://conjure-cp.github.io
