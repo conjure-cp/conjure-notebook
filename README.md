@@ -4,7 +4,7 @@
 2. Run the following command (2 lines) in a Code cell to install this extension.
 
 ```
-!source <(curl -s https://raw.githubusercontent.com/conjure-cp/conjure-notebook/v0.0.9/scripts/install-colab.sh)
+!source <(curl -s https://raw.githubusercontent.com/conjure-cp/conjure-notebook/v0.0.10/scripts/install-colab.sh)
 %reload_ext conjure
 ```
 
@@ -23,6 +23,6 @@ You do not have to use Google Colab to use Conjure Notebook.
 In yout favourite Jupyter environment, run the following to install the Conjure Notebook extension. **You need to make sure Conjure and its backend solvers are available in your path for this to work.** The latest [Conjure release](https://www.github.com/conjure-cp/conjure/releases/latest) can be found on Github, just download the `-with-solvers` archieve for your operating system and place its contents in your PATH.
 
 ```
-%pip install --quiet git+https://github.com/conjure-cp/conjure-notebook.git@v0.0.9
+%pip install --quiet git+https://github.com/conjure-cp/conjure-notebook.git@v0.0.10
 %reload_ext conjure
 ```
