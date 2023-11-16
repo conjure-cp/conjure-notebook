@@ -70,7 +70,7 @@ class ConjureMagics(Magics):
         else:  # multiple solutions
             try:
                 for solnum, sol in enumerate(resultdict['conjure_solutions']):
-                    for key, value in resultdict['conjure_solutions'][0].items():
+                    for key, value in sol.items():
                         self.shell.user_ns[key] = value
                     display(Markdown(f'## Solution {solnum+1}'))
                     self.shell.user_ns["conjure_display_solution"]()
