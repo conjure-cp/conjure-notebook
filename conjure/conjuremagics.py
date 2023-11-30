@@ -2,10 +2,13 @@ import sys
 import asyncio
 from IPython import get_ipython
 from IPython.core.magic import (Magics, magics_class, cell_magic, line_magic)
-from IPython.display import display, Markdown, JSON
-import ipywidgets as widgets
+from IPython.display import display, Markdown, HTML
 from .conjure import Conjure
+
 import json
+from pygments import highlight
+from pygments.lexers import JsonLexer
+from pygments.formatters import HtmlFormatter
 
 
 @magics_class
@@ -62,10 +65,8 @@ class ConjureMagics(Magics):
                 self.shell.user_ns["conjure_display_solution"]()
             except Exception as e:
                 # no user defined version, use the default
-                output_md = "```json\n"
-                output_md += json.dumps(resultdict['conjure_solutions'][0])
-                output_md += "\n```"
-                display(Markdown(output_md))
+                display(HTML(json_to_highlighted_html(
+                    resultdict["conjure_solutions"][0])))
 
         else:  # multiple solutions
             try:
@@ -76,10 +77,8 @@ class ConjureMagics(Magics):
                     self.shell.user_ns["conjure_display_solution"]()
             except Exception as e:
                 # no user defined version, use the default
-                output_md = "```json\n"
-                output_md += json.dumps(resultdict['conjure_solutions'])
-                output_md += "\n```"
-                display(Markdown(output_md))
+                display(HTML(json_to_highlighted_html(
+                    resultdict["conjure_solutions"])))
 
         try:
             self.shell.user_ns["conjure_display_info"]()
@@ -158,3 +157,17 @@ Conjure Notebook comes with a number of magic commands (i.e. commands that start
 
 More information about Conjure: https://conjure-cp.github.io
         """))
+
+
+def json_to_highlighted_html(json_obj):
+    # Convert the JSON object to a formatted string
+    json_str = json.dumps(json_obj, indent=4)
+
+    # Create a JsonLexer and an HtmlFormatter
+    lexer = JsonLexer()
+    formatter = HtmlFormatter(style="colorful", full=True)
+
+    # Highlight the JSON string
+    highlighted_str = highlight(json_str, lexer, formatter)
+
+    return highlighted_str
