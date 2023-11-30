@@ -63,9 +63,10 @@ class Conjure:
             (_, _) = pipes.communicate()
             if pipes.returncode != 0:
                 print(
-                    "Error while initializing extension: cannot run conjure.", file=sys.stderr)
+                    f"Error while initializing extension: cannot run conjure. Return code {pipes.returncode}", file=sys.stderr)
                 return False
-        except OSError as _:
-            print("Error while initializing extension: cannot run conjure.", file=sys.stderr)
+        except OSError as e:
+            print(
+                f"Error while initializing extension: cannot run conjure.\n{str(e)}", file=sys.stderr)
             return False
         return True
